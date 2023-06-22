@@ -9,6 +9,8 @@
 int *create_sparse(int rows, int cols) {
 	int *matrix = (int *)malloc(sizeof(int)*rows*cols*2);
 	for (int i = 0; i<N*M; i++) matrix[i] = 0;
+
+	// This matrix comes from the COMET paper
 	matrix[0] = 1;
 	matrix[3] = 2;
 	matrix[1*rows+0] = 3;
