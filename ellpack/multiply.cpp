@@ -26,11 +26,13 @@ Matrix *sparse_multiply(Ellpack *A, Matrix *B) {
     const int N = A->A1_pos;
     
     // LOOP 1: Dense
-    for (int i = 0; i<A->A1_pos; i++) {
+    for (int i1 = 0; i1<A->A1_pos; i1++) {
         // LOOP1.1: Dense (A1_tile)
-        for (int ii = 0; ii<A->A1_tile_pos; ii++) {
+        for (int i2 = 0; i2<A->A1_tile_pos; i2++) {
+            int i = i1;
+            
             // Singleton
-            int n2 = i*A->A1_tile_pos+ii;
+            int n2 = i1*A->A1_tile_pos+i2;
             int j = A->A2_crd[n2];
             
             // Inner dense loop
