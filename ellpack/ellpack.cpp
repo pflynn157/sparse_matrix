@@ -10,19 +10,22 @@ int main() {
     
     std::cout << "-----------------------------" << std::endl;
     
-    Matrix *B = new Matrix(4, 5);
+    Matrix *B = new Matrix(5, 5);
     B->print();
     
     std::cout << "-----------------------------" << std::endl;
     
-    Matrix *mtx2 = new Matrix(5, 4, true);
+    Matrix *mtx2 = new Matrix(5, 5, true);
     mtx2->A[0] = 1;
     mtx2->A[3] = 2;
-    mtx2->A[1*4+0] = 3;
-    mtx2->A[1*4+1] = 4;
-    mtx2->A[3*4+1] = 5;
-    mtx2->A[4*4+2] = 6;
-    mtx2->A[4*4+3] = 7;
+    mtx2->A[1*5+1] = 3;
+    mtx2->A[1*5+4] = 4;
+    mtx2->A[1*5+0] = 0;
+    mtx2->A[2*5+2] = 5;
+    mtx2->A[3*5+0] = 6;
+    mtx2->A[3*5+3] = 7;
+    mtx2->A[4*5+1] = 8;
+    mtx2->A[4*5+4] = 9;
     mtx2->print();
     
     std::cout << "-----------------------------" << std::endl;
