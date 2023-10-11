@@ -13,6 +13,22 @@ def matrix_multiply(mtx1, mtx2, m, n):
             #print("")
     return mtx3
 
+def coo_multiply(coo_mtx, dense_mtx, m, n):
+    A1_pos1 = coo_mtx[0][0]
+    A1_pos2 = coo_mtx[0][1]
+    A1_crd = coo_mtx[1]
+    A2_pos = coo_mtx[2]
+    Aval = coo_mtx[3]
+    mtx3 = [[0 for _ in range(m)] for _ in range(n)]
+
+    for n in range(A1_pos1, A1_pos2):
+        i = A1_crd[n]
+        j = A2_pos[n]
+        for k in range(m):
+            mtx3[i][k] += Aval[n] * dense_mtx[j][k]
+            
+    return mtx3
+
 def csr_multiply(csr_mtx, dense_mtx, m, n):
     A1_pos = csr_mtx[0][0]
     A2_pos = csr_mtx[1]
@@ -29,6 +45,23 @@ def csr_multiply(csr_mtx, dense_mtx, m, n):
                 #print(f"i: {i}, j: {j}, k: {k}, val: {Aval[p]}")
                 mtx3[i][k] += Aval[p] * dense_mtx[j][k]
             #print("---")
+    return mtx3
+    
+def ellpack_multiply(ellpack_mtx, dense_mtx, m, n):
+    A1_pos = ellpack_mtx[0][0]          # Columns
+    A1_tile_pos = ellpack_mtx[1][0]     # Rows
+    A2_crd = ellpack_mtx[2]             # Singleton- col idx
+    Aval = ellpack_mtx[3]
+    mtx3 = [[0 for _ in range(m)] for _ in range(n)]
+    
+    for i1 in range(A1_pos):
+        for i in range(A1_tile_pos):
+            n2 = i1 * A1_tile_pos + i
+            j = A2_crd[n2]
+    
+            for k in range(m):
+                mtx3[i][k] += Aval[n2] * dense_mtx[j][k]
+            
     return mtx3
     
 def bcsr_multiply(bcsr_mtx, dense_mtx, m, n):
@@ -48,7 +81,7 @@ def bcsr_multiply(bcsr_mtx, dense_mtx, m, n):
             bi = A1_tile_pos[n1] * A2_pos
             bj = A1_tile_crd[n2] * A2_tile_pos
             
-            print(f"bi, bj: ({bi}, {bj})")
+            #print(f"bi, bj: ({bi}, {bj})")
             
             for row in range(A2_pos):
                 for col in range(A2_tile_pos):
@@ -56,12 +89,10 @@ def bcsr_multiply(bcsr_mtx, dense_mtx, m, n):
                     j = col + bj
                     value_idx = n2*(A2_pos*A2_tile_pos) + row * A2_tile_pos + col
                     
-                    print(f"-- i, j: ({i}, {j}) = {Aval[value_idx]}")
+                    #print(f"-- i, j: ({i}, {j}) = {Aval[value_idx]}")
                     
                     for k in range(m):
                         mtx3[i][k] += Aval[value_idx] * dense_mtx[j][k]
-            
-            print("")
 
     return mtx3
 
