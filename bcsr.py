@@ -91,17 +91,17 @@ print("================================")
 ## ELLPACK matrix multplication
 ##
 print("ELLPACK")
-C4 = ellpack_multiply(ellpack_matrix, dense_matrix, m, n)
+C5 = ellpack_multiply(ellpack_matrix, dense_matrix, m, n)
 
-print_matrix(C4)
+print_matrix(C5)
 print("================================")
 
 ##
 ## BCSR matrix multplication
 ##
 print("BCSR")
-C5 = bcsr_multiply(bcsr_matrix, dense_matrix, m, n)
+C6 = bcsr_multiply(bcsr_matrix, dense_matrix, m, n)
 
-print_matrix(C5)
+print_matrix(C6)
 print("================================")
 
