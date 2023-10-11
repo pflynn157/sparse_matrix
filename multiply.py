@@ -30,8 +30,46 @@ def csr_multiply(csr_mtx, dense_mtx, m, n):
                 mtx3[i][k] += Aval[p] * dense_mtx[j][k]
             #print("---")
     return mtx3
-
+    
 def bcsr_multiply(bcsr_mtx, dense_mtx, m, n):
+    A1_pos = bcsr_mtx[0][0]      # Rows -> A1_pos
+    A1_tile_pos = bcsr_mtx[1]    # Col idx ptr -> A1_tile_pos
+    A1_tile_crd = bcsr_mtx[2]    # Column idxs -> A1_tile_crd
+    A2_pos = bcsr_mtx[3][0]      # Block row count -> A2_pos
+    A2_tile_pos = bcsr_mtx[4][0] # Block col count -> A2_tile_pos
+    Aval = bcsr_mtx[5]           # Values of A in BCSR format
+
+    # Create an empty result matrix
+    mtx3 = [[0 for _ in range(m)] for _ in range(n)]
+    
+    # Our matrix
+    for n1 in range(A1_pos):
+        for n2 in range(A1_tile_pos[n1], A1_tile_pos[n1 + 1]):
+            bi = A1_tile_pos[n1] * A2_pos
+            bj = A1_tile_crd[n2] * A2_tile_pos
+            
+            print(f"bi, bj: ({bi}, {bj})")
+            
+            for row in range(A2_pos):
+                for col in range(A2_tile_pos):
+                    i = row + bi
+                    j = col + bj
+                    value_idx = n2*(A2_pos*A2_tile_pos) + row * A2_tile_pos + col
+                    
+                    print(f"-- i, j: ({i}, {j}) = {Aval[value_idx]}")
+                    
+                    for k in range(m):
+                        mtx3[i][k] += Aval[value_idx] * dense_mtx[j][k]
+            
+            print("")
+
+    return mtx3
+
+##
+## Note: This one can be ignored
+## We were using this for the second test matrix
+##
+def bcsr_multiply2(bcsr_mtx, dense_mtx, m, n):
     A1_pos = bcsr_mtx[0][0]      # Rows -> A1_pos
     A1_tile_pos = bcsr_mtx[1]    # Col idx ptr -> A1_tile_pos
     A1_tile_crd = bcsr_mtx[2]    # Column idxs -> A1_tile_crd
@@ -55,7 +93,7 @@ def bcsr_multiply(bcsr_mtx, dense_mtx, m, n):
                 for col in range(A2_tile_pos):
                     i = row + bi
                     j = col + bj
-                    print(f"-- i, j: ({i}, {j}) = {Aval[val_idx]}")
+                    print(f"-- i, j: ({i}, {j}) = {Aval[val_idx]} | {Aval[n2*(A2_pos*A2_tile_pos) + row * A2_tile_pos + col]}")
                     for k in range(m):
                         mtx3[i][k] += Aval[val_idx] * dense_mtx[j][k]
                     val_idx += 1

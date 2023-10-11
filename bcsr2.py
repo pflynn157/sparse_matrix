@@ -32,6 +32,7 @@ dense_matrix = [
 bcsr_matrix = [
     [4],                        # A1_pos
     [0, 2, 4, 6, 7],            # A1_tile_pos
+    #[0, 1, 2, 3, 4],
     [0, 1, 2, 3, 0, 3, 1],      # A1_tile_crd
     [2],                        # A2_pos
     [2],                        # A2_tile_pos
@@ -77,8 +78,16 @@ print("================================")
 ##
 ## BCSR matrix multplication
 ##
-C3 = bcsr_multiply(bcsr_matrix, dense_matrix, m, n)
+C3 = bcsr_multiply2(bcsr_matrix, dense_matrix, m, n)
 
 print_matrix(C3)
+print("================================")
+
+##
+## BCSR matrix multplication (second variation)
+##
+C4 = bcsr_multiply(bcsr_matrix, dense_matrix, m, n)
+
+print_matrix(C4)
 print("================================")
 
