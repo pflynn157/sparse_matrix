@@ -23,13 +23,6 @@ coo_matrix = [
     [5, 1, 7, 3, 8, 4, 9],  # Aval
 ]
 
-csr_matrix = [
-    [4],                # A1_pos
-    [0, 2, 4, 4, 7],        # A2_pos
-    [0, 1, 0, 1, 0, 3, 4],  # A2_crd
-    [5, 1, 7, 3, 8, 4, 9],  # Aval
-]
-
 ellpack_matrix = [
     [3],        # A1_pos
     [4],        # A1_tile_pos
@@ -37,12 +30,19 @@ ellpack_matrix = [
     [5, 7, 0, 8, 1, 3, 0, 4, 0, 0, 0, 9],   # Aval
 ]
 
+csr_matrix = [
+    [4],                # A1_pos
+    [0, 2, 4, 4, 7],        # A2_pos
+    [0, 1, 0, 1, 0, 3, 4],  # A2_crd
+    [5, 1, 7, 3, 8, 4, 9],  # Aval
+]
+
 bcsr_matrix = [
-    [2],        # A1_pos
-    [0, 1, 3],  # A1_tile_pos
-    [0, 0, 1],  # A1_tile_crd
-    [2],        # A2_pos
-    [3],        # A2_tile_pos
+    [2],        # A1_pos (Dense- size)
+    [0, 1, 3],  # A1_tile_pos (ptr)
+    [0, 0, 1],  # A1_tile_crd (idx)
+    [2],        # A2_pos      (block rows)
+    [3],        # A2_tile_pos (block cols)
     [5, 1, 0, 7, 3, 0,      # Aval
      0, 0, 0, 8, 0, 0,
      0, 0, 0, 4, 9, 0,]
@@ -70,38 +70,29 @@ print_matrix(C1)
 print("================================")
 
 ##
-## CSR matrix multplication
+## BCSR matrix multplication
 ##
-print("CSR")
-C2 = csr_multiply(csr_matrix, dense_matrix, m, n)
+print("BCSR")
+C2 = bcsr_multiply(bcsr_matrix, dense_matrix, m, n)
 
 print_matrix(C2)
 print("================================")
 
 ##
-## COO matrix multplication
+## BCSR2 matrix multplication
 ##
-print("COO")
-C3 = coo_multiply(coo_matrix, dense_matrix, m, n)
+print("CSR2")
+C3 = csr_multiply2(csr_matrix, dense_matrix, m, n)
 
 print_matrix(C3)
 print("================================")
 
 ##
-## ELLPACK matrix multplication
-##
-print("ELLPACK")
-C5 = ellpack_multiply(ellpack_matrix, dense_matrix, m, n)
-
-print_matrix(C5)
-print("================================")
-
-##
 ## BCSR matrix multplication
 ##
-print("BCSR")
-C6 = bcsr_multiply(bcsr_matrix, dense_matrix, m, n)
-
-print_matrix(C6)
-print("================================")
+#print("BCSR_CSR")
+#C3 = bcsr_multiply(csr2_matrix, dense_matrix, m, n)
+#
+#print_matrix(C3)
+#print("================================")
 
