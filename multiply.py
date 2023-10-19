@@ -65,7 +65,9 @@ def csr_multiply(csr_mtx, dense_mtx, m, n):
             
     return mtx3
 
+## CHANGE "tile" to block
 def bcsr_multiply(bcsr_mtx, dense_mtx, m, n):
+    # Review the comments
     A1_pos = bcsr_mtx[0][0]      # Rows -> A1_pos
     A1_tile_pos = bcsr_mtx[1]    # Col idx ptr -> A1_tile_pos
     A1_tile_crd = bcsr_mtx[2]    # Column idxs -> A1_tile_crd
