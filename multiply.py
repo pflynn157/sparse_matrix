@@ -40,6 +40,8 @@ def ellpack_multiply(ellpack_mtx, dense_mtx, m, n):
         for i in range(A1_tile_pos):
             # FORMAT SPECIFIC
             # Look at COO- can we generalize in the same way?
+            #
+            # TODO: Is this pretty much there?
             n2 = i1 * A1_tile_pos + i
             j = A2_crd[n2]
     
