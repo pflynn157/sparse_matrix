@@ -75,6 +75,7 @@ def bcsr_multiply(bcsr_mtx, dense_mtx, m, n):
     mtx3 = [[0 for _ in range(m)] for _ in range(n)]
     
     # Our matrix
+    # Consider (note): A1 -> A2 -> A1_tile -> A2_tile
     for n1 in range(A1_pos):
         for n2 in range(A1_tile_pos[n1],A1_tile_pos[n1+1]):
             for bi in range(A2_pos):
