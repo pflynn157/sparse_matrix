@@ -39,10 +39,10 @@ csr_matrix = [
 
 bcsr_matrix = [
     [2],        # A1_pos
-    [0, 1, 3],  # A1_tile_pos
-    [0, 0, 1],  # A1_tile_crd
-    [2],        # A2_pos
-    [3],        # A2_tile_pos
+    [2],        # A1_block_pos
+    [0, 1, 3],  # A2_pos
+    [0, 0, 1],  # A2_crd
+    [3],        # A2_block_pos
     [5, 1, 0, 7, 3, 0,      # Aval
      0, 0, 0, 8, 0, 0,
      0, 0, 0, 4, 9, 0,]

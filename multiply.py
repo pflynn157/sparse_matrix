@@ -68,11 +68,11 @@ def csr_multiply(csr_mtx, dense_mtx, m, n):
 ## CHANGE "tile" to block
 def bcsr_multiply(bcsr_mtx, dense_mtx, m, n):
     # Review the comments
-    A1_pos = bcsr_mtx[0][0]      # Rows -> A1_pos
-    A1_tile_pos = bcsr_mtx[1]    # Col idx ptr -> A1_tile_pos
-    A1_tile_crd = bcsr_mtx[2]    # Column idxs -> A1_tile_crd
-    A2_pos = bcsr_mtx[3][0]      # Block row count -> A2_pos
-    A2_tile_pos = bcsr_mtx[4][0] # Block col count -> A2_tile_pos
+    A1_pos = bcsr_mtx[0][0]         # A1_pos
+    A1_block_pos = bcsr_mtx[1][0]   # A1_block_pos
+    A2_pos = bcsr_mtx[2]            # A2_pos
+    A2_crd = bcsr_mtx[3]            # A2_crd
+    A2_block_pos = bcsr_mtx[4][0]   # A2_block_pos
     Aval = bcsr_mtx[5]           # Values of A in BCSR format
 
     # Create an empty result matrix
@@ -81,12 +81,12 @@ def bcsr_multiply(bcsr_mtx, dense_mtx, m, n):
     # Our matrix
     # Consider (note): A1 -> A2 -> A1_tile -> A2_tile
     for n1 in range(A1_pos):
-        for n2 in range(A1_tile_pos[n1],A1_tile_pos[n1+1]):
-            for bi in range(A2_pos):
-                for bj in range(A2_tile_pos):
-                    i = n1 * A2_pos + bi
-                    j = A1_tile_crd[n2] * A2_tile_pos + bj
-                    index = n2*(A2_tile_pos*A2_pos) + bi * A2_tile_pos + bj
+        for bi in range(A1_block_pos):
+            for n2 in range(A2_pos[n1],A2_pos[n1+1]):
+                for bj in range(A2_block_pos):
+                    i = n1 * A1_block_pos + bi
+                    j = A2_crd[n2] * A2_block_pos + bj
+                    index = n2*(A1_block_pos*A2_block_pos) + bi * A2_block_pos + bj
                     
                     #print(f"I: {i} | J: {j} | Value: {index}")
                     
