@@ -44,42 +44,41 @@ def coo_multiply(coo_mtx, dense_mtx, m, n):
             
     return mtx3
 
-def ellpack_multiply(ellpack_mtx, dense_mtx, m, n):
-    '''
-    A1_pos = ellpack_mtx[1][0]          # Rows
-    A1_block_pos = ellpack_mtx[0][0]     # Columns
+def ellpack_multiply2(ellpack_mtx, dense_mtx, m, n):
+    A1_pos = ellpack_mtx[0][0]          # Columns [3]
+    A1_tile_pos = ellpack_mtx[1][0]     # Rows    [4]
     A2_crd = ellpack_mtx[2]             # Singleton- col idx
     Aval = ellpack_mtx[3]
-    '''
-    A1_pos = 4
-    A1_block_pos = 1
-    A2_pos = [0, 0, 0, 0, 1, 1, 1, 3, 2, 2, 2, 4]
-    A2_block_pos = 3
-    Aval = [5, 7, 0, 8, 1, 3, 0, 4, 0, 0, 0, 9]
-    
     mtx3 = [[0 for _ in range(m)] for _ in range(n)]
     
-    '''
-    for i in range(A1_pos):
-        for i1 in range(A1_block_pos):
+    for i1 in range(A1_pos):
+        for i in range(A1_tile_pos):
             # FORMAT SPECIFIC
             # Look at COO- can we generalize in the same way?
-            #
-            # TODO: Is this pretty much there?
-            n2 = i1 * A1_block_pos + i
+            n2 = i1 * A1_tile_pos + i
             j = A2_crd[n2]
     
             for k in range(m):
                 mtx3[i][k] += Aval[n2] * dense_mtx[j][k]
-    '''
             
-    for n1 in range(A1_pos):
-        for bi in range(A1_block_pos):
-            for bj in range(A2_block_pos):
-                i = n1 * A1_block_pos + bi
-                j = i * A2_block_pos + bj
-                print(f"i: {i} | j: {j}")
-            print("---")
+    return mtx3
+
+def ellpack_multiply(ellpack_mtx, dense_mtx, m, n):
+    A1_pos = ellpack_mtx[0][0]          # Columns
+    A1_tile_pos = ellpack_mtx[1][0]     # Rows
+    A2_crd = ellpack_mtx[2]             # Singleton- col idx
+    Aval = ellpack_mtx[3]
+    mtx3 = [[0 for _ in range(m)] for _ in range(n)]
+    
+    for i1 in range(A1_pos):
+        for i in range(A1_tile_pos):
+            # FORMAT SPECIFIC
+            # Look at COO- can we generalize in the same way?
+            n2 = i1 * A1_tile_pos + i
+            j = A2_crd[n2]
+    
+            for k in range(m):
+                mtx3[i][k] += Aval[n2] * dense_mtx[j][k]
             
     return mtx3
 
