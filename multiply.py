@@ -32,57 +32,42 @@ def coo_multiply(coo_mtx, dense_mtx, m, n):
     A1_pos1 = coo_mtx[0][0]     # Range1
     A1_pos2 = coo_mtx[0][1]     # Range2
     A1_crd = coo_mtx[1]         # i
-    A2_pos = coo_mtx[2]         # j
+    A2_crd = coo_mtx[2]         # j
     Aval = coo_mtx[3]
     mtx3 = [[0 for _ in range(m)] for _ in range(n)]
 
     for n in range(A1_pos1, A1_pos2):
         i = A1_crd[n]
-        j = A2_pos[n]
+        j = A2_crd[n]
         for k in range(m):
             mtx3[i][k] += Aval[n] * dense_mtx[j][k]
             
     return mtx3
 
-def ellpack_multiply2(ellpack_mtx, dense_mtx, m, n):
+def ellpack_multiply(ellpack_mtx, dense_mtx, m, n):
     A1_pos = ellpack_mtx[0][0]          # Columns [3]
     A1_tile_pos = ellpack_mtx[1][0]     # Rows    [4]
     A2_crd = ellpack_mtx[2]             # Singleton- col idx
     Aval = ellpack_mtx[3]
     mtx3 = [[0 for _ in range(m)] for _ in range(n)]
     
-    for i1 in range(A1_pos):
-        for i in range(A1_tile_pos):
-            # FORMAT SPECIFIC
-            # Look at COO- can we generalize in the same way?
-            n2 = i1 * A1_tile_pos + i
-            j = A2_crd[n2]
+    ##
+    ## The idea behind this is when we have a Dense-Dense attribute,
+    ## we generate code and incidies like this
+    ##
+    ## This generalizes for COO;
+    ##
+    for n1 in range(A1_pos):
+        for n2 in range(A1_tile_pos):
+            n = n1 * A1_tile_pos + n2   # This becomes the addressing attribute for the next attribute
+            i = n2                      # This becomes the index for the current dimension
+            j = A2_crd[n]
     
             for k in range(m):
-                mtx3[i][k] += Aval[n2] * dense_mtx[j][k]
+                mtx3[i][k] += Aval[n] * dense_mtx[j][k]
             
     return mtx3
 
-def ellpack_multiply(ellpack_mtx, dense_mtx, m, n):
-    A1_pos = ellpack_mtx[0][0]          # Columns
-    A1_tile_pos = ellpack_mtx[1][0]     # Rows
-    A2_crd = ellpack_mtx[2]             # Singleton- col idx
-    Aval = ellpack_mtx[3]
-    mtx3 = [[0 for _ in range(m)] for _ in range(n)]
-    
-    for i1 in range(A1_pos):
-        for i in range(A1_tile_pos):
-            # FORMAT SPECIFIC
-            # Look at COO- can we generalize in the same way?
-            n2 = i1 * A1_tile_pos + i
-            j = A2_crd[n2]
-    
-            for k in range(m):
-                mtx3[i][k] += Aval[n2] * dense_mtx[j][k]
-            
-    return mtx3
-
-## CHANGE "tile" to block
 def bcsr_multiply(bcsr_mtx, dense_mtx, m, n):
     # Review the comments
     A1_pos = bcsr_mtx[0][0]         # A1_pos

@@ -53,12 +53,4 @@ C2 = ellpack_multiply(ellpack_matrix, dense_matrix, m, n)
 print_matrix(C2)
 print("================================")
 
-##
-## ELLPACK matrix multplication (version 2)
-##
-print("ELLPACK2")
-C2 = ellpack_multiply2(ellpack_matrix, dense_matrix, m, n)
-
-print_matrix(C2)
-print("================================")
 
