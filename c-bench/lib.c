@@ -43,3 +43,10 @@ void print_matrix(char *label, float *matrix, int rows, int cols) {
     puts("---------------------------------------------------");
 }
 
+//
+// COO methods
+//
+Sparse *create_coo(int rows, int cols) {
+    int total_size = rows * cols;
+}
+

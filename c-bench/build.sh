@@ -1,4 +1,5 @@
 #!/bin/bash
 
 clang lib.c dense-dense.c -o dense-dense
+clang lib.c coo.c -o coo
 
