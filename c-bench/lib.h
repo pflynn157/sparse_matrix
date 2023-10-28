@@ -1,14 +1,14 @@
 #pragma once
 
 typedef struct {
-    int *A1_pos;
-    int *A1_crd;
-    int *A1_block_pos;
-    int *A1_block_crd;
-    int *A2_pos;
-    int *A2_crd;
-    int *A2_block_pos;
-    int *A2_block_crd;
+    int start;
+    int end;
+    int *rows;
+    int *cols;
     float *values;
-} Sparse;
+} COO;
+
+COO *create_coo(int rows, int cols);
+void print_coo(char *label, COO *coo);
+void copy_coo(COO *coo, float *matrix, int rows, int cols);
 
