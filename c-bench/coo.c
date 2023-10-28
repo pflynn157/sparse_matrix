@@ -6,12 +6,6 @@
 
 #define N 512
 
-// Forward declarations
-void fill_dense(float *matrix, int rows, int cols);
-void fill_zero(float *matrix, int rows, int cols);
-int check(float *C1, float *C2, int rows, int cols);
-void print_matrix(char *label, float *matrix, int rows, int cols);
-
 //
 // Multiplication
 //
