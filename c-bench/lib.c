@@ -130,3 +130,124 @@ void print_coo(char *label, COO *coo) {
     puts("---------------------------------------------------");
 }
 
+//
+// CSR methods
+//
+CSR *create_csr(int row_count, int col_count) {
+    int total_size = row_count * col_count;
+    int max = total_size / 6;
+    
+    // Generate row and column indicies
+    int rows[max];
+    int cols[max];
+    for (int i = 0; i<max; i++) {
+        while (1) {
+            int good = 1;
+            int r = rand() % row_count;
+            int c = rand() % col_count;
+            for (int j = 0; j<i; j++) {
+                if (rows[j] == r && cols[j] == c) {
+                    good = 0;
+                    break;
+                }
+            }
+            
+            if (good == 1) {
+                rows[i] = r;
+                cols[i] = c;
+                break;
+            }
+        }
+    }
+    
+    // Sort rows and cols
+    while (1) {
+        int swapped = 0;
+        
+        for (int i = 1; i<max; i++) {
+            if (rows[i] < rows[i-1]) {
+                int t1 = rows[i-1];
+                rows[i-1] = rows[i];
+                rows[i] = t1;
+                
+                int t2 = cols[i-1];
+                cols[i-1] = cols[i];
+                cols[i] = t2;
+                
+                swapped = 1;
+            }
+        }
+        
+        if (!swapped) break;
+    }
+    
+    //debug
+    /*printf("Rows: [");
+    for (int i = 0; i<max; i++) printf("%d ", rows[i]);
+    puts("]");
+    printf("Cols: [");
+    for (int i = 0; i<max; i++) printf("%d ", cols[i]);
+    puts("]");*/
+    
+    // Build the matrix
+    CSR *csr = malloc(sizeof(CSR));
+    csr->rows = row_count;
+    csr->colptr = malloc(sizeof(int)*(row_count+1));
+    csr->colidx = malloc(sizeof(int)*max);
+    csr->values = malloc(sizeof(float)*max);
+    csr->colptr_len = row_count + 1;
+    csr->colidx_len = max;
+    
+    // Generate a column index
+    int current = rows[0];
+    csr->colptr[0] = 0;
+    int colptr_index = 1;
+    int colptr_bound = 1;
+    
+    csr->colidx[0] = cols[0];
+    csr->values[0] = (float)rand()/(float)(RAND_MAX/11);
+    
+    for (int i = 1; i<max; i++) {
+        //printf("Current: %d | Rows[%d]: %d\n", current, i, rows[i]);
+        if (rows[i] != current) {
+            //puts("\t->");
+            csr->colptr[colptr_index] = colptr_bound;
+            ++colptr_index;
+            ++colptr_bound;
+            current = rows[i];
+        } else {
+            ++colptr_bound;
+        }
+        
+        csr->colidx[i] = cols[i];
+        csr->values[i] = (float)rand()/(float)(RAND_MAX/11);
+    }
+    
+    return csr;
+}
+
+void copy_csr(CSR *csr, float *matrix, int rows, int cols) {
+    for (int i = 0; i<csr->rows; i++) {
+        for (int p = csr->colptr[i]; p<csr->colptr[i+1]; p++) {
+            int j = csr->colidx[p];
+            matrix[i*cols+j] = csr->values[p];
+        }
+    }
+}
+
+void print_csr(char *label, CSR *csr) {
+    puts("---------------------------------------------------");
+    printf("CSR %s\n", label);
+    printf("[%d]\n", csr->rows);
+    printf("Colptr: [");
+    for (int i = 0; i<csr->colptr_len; i++) printf("%d ", csr->colptr[i]);
+    puts("]");
+    printf("Colidx: [");
+    for (int i = 0; i<csr->colidx_len; i++) printf("%d ", csr->colidx[i]);
+    puts("]");
+    printf("Vals: [");
+    for (int i = 0; i<csr->colidx_len; i++) printf("%.0f ", csr->values[i]);
+    puts("]");
+    puts("---------------------------------------------------");
+}
+
