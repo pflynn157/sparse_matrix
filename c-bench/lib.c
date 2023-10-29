@@ -220,6 +220,47 @@ void print_csr(char *label, CSR *csr) {
 //
 // BCSR methods
 //
+BCSR *create_bcsr(int row_count, int col_count) {
+    int total_size = row_count * col_count;
+    int max = total_size / 6;
+    int block_size = row_count / 4;
+    
+    int max_blocks = rand() % (block_size + 2);
+    while (max_blocks == 0) max_blocks = rand() % (block_size + 2);
+    int cur_block = 0;
+    //printf("Max Blocks: %d\n", max_blocks);
+    
+    BCSR *bcsr = malloc(sizeof(BCSR));
+    bcsr->block_row = block_size;
+    bcsr->block_col = block_size;
+    bcsr->colptr = malloc(sizeof(int)*max_blocks+1);
+    bcsr->colptr_len = max_blocks+1;
+    bcsr->rows = max_blocks;
+    
+    int colptr_idx = 0;
+    
+    for (int i = 0; i<col_count; i+=block_size) {
+        if (cur_block > max_blocks) {
+            bcsr->colptr[colptr_idx] = bcsr->colptr[colptr_idx-1] + 2;
+            break;
+        }
+        
+        bcsr->colptr[colptr_idx] = i;
+        ++colptr_idx;
+    }
+    
+    bcsr->colidx_len = max_blocks * block_size;
+    bcsr->colidx = malloc(sizeof(int)*bcsr->colidx_len);
+    bcsr->values = malloc(sizeof(float)*bcsr->colidx_len);
+    
+    for (int i = 0; i<bcsr->colidx_len; i++) {
+        bcsr->colidx[i] = rand() % (block_size / 4);
+        bcsr->values[i] = (float)rand()/(float)(RAND_MAX/11);
+    }
+    
+    return bcsr;    
+}
+
 BCSR *create_bcsr1(int rows, int cols) {
     CSR *csr = create_csr(rows, cols);
     
