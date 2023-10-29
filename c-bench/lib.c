@@ -218,6 +218,60 @@ void print_csr(char *label, CSR *csr) {
 }
 
 //
+// BCSR methods
+//
+BCSR *create_bcsr1(int rows, int cols) {
+    CSR *csr = create_csr(rows, cols);
+    
+    BCSR *bcsr = malloc(sizeof(BCSR));
+    bcsr->rows = csr->rows;
+    bcsr->colptr_len = csr->colptr_len;
+    bcsr->colidx_len = csr->colidx_len;
+    bcsr->colptr = malloc(sizeof(int)*csr->colptr_len);
+    bcsr->colidx = malloc(sizeof(int)*csr->colidx_len);
+    bcsr->values = malloc(sizeof(int)*csr->colidx_len);
+    bcsr->block_row = 1;
+    bcsr->block_col = 1;
+    for (int i = 0; i<csr->colptr_len; i++) bcsr->colptr[i] = csr->colptr[i];
+    for (int i = 0; i<csr->colidx_len; i++) bcsr->colidx[i] = csr->colidx[i];
+    for (int i = 0; i<csr->colidx_len; i++) bcsr->values[i] = csr->values[i];
+    return bcsr;
+}
+
+void print_bcsr(char *label, BCSR *bcsr) {
+    puts("---------------------------------------------------");
+    printf("BCSR %s\n", label);
+    printf("[%d]\n", bcsr->rows);
+    printf("Colptr: [");
+    for (int i = 0; i<bcsr->colptr_len; i++) printf("%d ", bcsr->colptr[i]);
+    puts("]");
+    printf("Colidx: [");
+    for (int i = 0; i<bcsr->colidx_len; i++) printf("%d ", bcsr->colidx[i]);
+    puts("]");
+    printf("Block Row: %d\n", bcsr->block_row);
+    printf("Block Col: %d\n", bcsr->block_col);
+    printf("Vals: [");
+    for (int i = 0; i<bcsr->colidx_len; i++) printf("%.0f ", bcsr->values[i]);
+    puts("]");
+    puts("---------------------------------------------------");
+}
+
+void copy_bcsr(BCSR *bcsr, float *matrix, int rows, int cols) {
+    for (int n1 = 0; n1<bcsr->rows; n1++) {
+        for (int bi = 0; bi<bcsr->block_row; bi++) {
+            for (int n2 = bcsr->colptr[n1]; n2<bcsr->colptr[n1+1]; n2++) {
+                for (int bj = 0; bj<bcsr->block_col; bj++) {
+                    int i = n1 * bcsr->block_row + bi;
+                    int j =  bcsr->colidx[n2] * bcsr->block_col + bj;
+                    int p = n2*(bcsr->block_row*bcsr->block_col) + bi * bcsr->block_col + bj;
+                    matrix[i*cols+j] = bcsr->values[p];
+                }
+            }
+        }
+    }               
+}
+
+//
 // ELLPACK methods
 //
 void generate_valid_columns(int *valid_columns, int* rows, int *cols, int current_row, int total_cols, int max) {

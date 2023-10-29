@@ -20,6 +20,19 @@ typedef struct {
 } CSR;
 
 typedef struct {
+    int rows;   // Dense -> A1 attribute
+    int *colptr;
+    int *colidx;
+    float *values;
+    int block_row;
+    int block_col;
+    
+    // only for debug
+    int colptr_len;
+    int colidx_len;
+} BCSR;
+
+typedef struct {
     int rows;
     int cols;
     int *colidx;
@@ -38,6 +51,10 @@ void copy_coo(COO *coo, float *matrix, int rows, int cols);
 CSR *create_csr(int rows, int cols);
 void print_csr(char *label, CSR *csr);
 void copy_csr(CSR *csr, float *matrix, int rows, int cols);
+
+BCSR *create_bcsr1(int rows, int cols);
+void print_bcsr(char *label, BCSR *csr);
+void copy_bcsr(BCSR *csr, float *matrix, int rows, int cols);
 
 ELL *create_ell(int rows, int cols);
 void print_ell(char *label, ELL *ell);
