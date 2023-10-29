@@ -19,6 +19,13 @@ typedef struct {
     int colidx_len;
 } CSR;
 
+typedef struct {
+    int rows;
+    int cols;
+    int *colidx;
+    float *values;
+} ELL;
+
 void fill_dense(float *matrix, int rows, int cols);
 void fill_zero(float *matrix, int rows, int cols);
 int check(float *C1, float *C2, int rows, int cols);
@@ -31,4 +38,8 @@ void copy_coo(COO *coo, float *matrix, int rows, int cols);
 CSR *create_csr(int rows, int cols);
 void print_csr(char *label, CSR *csr);
 void copy_csr(CSR *csr, float *matrix, int rows, int cols);
+
+ELL *create_ell(int rows, int cols);
+void print_ell(char *label, ELL *ell);
+void copy_ell(ELL *ell, float *matrix, int rows, int cols);
 
