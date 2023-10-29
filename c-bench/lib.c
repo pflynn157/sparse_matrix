@@ -257,12 +257,12 @@ ELL *create_ell(int row_count, int col_count) {
     if (current_len > total_cols) total_cols = current_len;
     
     //debug
-    printf("Rows: [");
+    /*printf("Rows: [");
     for (int i = 0; i<max; i++) printf("%d ", rows[i]);
     puts("]");
     printf("Cols: [");
     for (int i = 0; i<max; i++) printf("%d ", cols[i]);
-    puts("]");
+    puts("]");*/
     
     // Setup the matrix
     ELL *ell = malloc(sizeof(ELL));

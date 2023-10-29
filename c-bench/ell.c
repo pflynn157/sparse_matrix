@@ -4,7 +4,7 @@
 
 #include "lib.h"
 
-#define N 8
+#define N 512
 
 //
 // Multiplication
@@ -57,8 +57,8 @@ int main() {
     fill_zero(C1, N, N);
     fill_zero(C2, N, N);
     
-    print_ell("A1", A1);
-    print_matrix("A2", A2, N, N);
+    //print_ell("A1", A1);
+    //print_matrix("A2", A2, N, N);
     
     // Run
     begin = clock();
