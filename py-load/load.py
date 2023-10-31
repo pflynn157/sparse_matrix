@@ -7,14 +7,24 @@ with open("taco.mtx", "r") as f:
         entries = line.split()
         coo.append((int(entries[0]), int(entries[1]), int(entries[2])))
 
-print(coo)
+##
+## Generates valid column coordinates for padding
+##
+def generate_pad_cols(used_cols, col_max):
+    cols = list()
+    for i in range(col_max):
+        cols.append(i)
+    for u in used_cols:
+        cols[u] = -1
+    return cols
 
 ##
 ## Generate an ellpack format
 ##
 def generate_ellpack(coo):
     size = coo[0]
-    coo = coo[1:]  
+    coo = coo[1:]
+    print(coo)
     
     num_rows = size[0]
     num_cols = 0
@@ -39,6 +49,7 @@ def generate_ellpack(coo):
         max_len = current_len
     
     num_cols = max_len
+    print("Num_cols: ", num_cols)
     
     # Step 2: Pad the rows which need extra values
     coo2 = list()
@@ -46,25 +57,46 @@ def generate_ellpack(coo):
     
     current = coo[0][0]
     current_len = 1
+    coo2.append(coo[0])
+    
+    # Go through and pad it
     for i in range(1, len(coo)):
         if coo[i][0] != current:
+            print(f"Len for {current}: {current_len}")
             if current_len < num_cols:
-                for j in range(0, size[1]):
-                    if j not in current_cols:
-                        coo2.append((current, j, 0))
-                        current_len += 1
-                    if current_len >= num_cols:
-                        break
-                
+                usable_cols = generate_pad_cols(current_cols, size[1])
+                c_idx = 0
+                while current_len < num_cols:
+                    c = usable_cols[c_idx]
+                    c_idx += 1
+                    while c == -1:
+                        c = usable_cols[c_idx]
+                        c_idx += 1
+                    coo2.append((current, c, 0))
+                    current_len += 1
+            
             current = coo[i][0]
             current_len = 1
             current_cols.clear()
-            current_cols.append(coo[i][1])
-            coo2.append(coo[1])
         else:
             current_len += 1
-            current_cols.append(coo[i][1])
-            coo2.append(coo[i])
+        current_cols.append(coo[i][1])
+        coo2.append(coo[i])
+    
+    # Check the final value
+    if current_len < num_cols:
+        usable_cols = generate_pad_cols(current_cols, size[1])
+        c_idx = 0
+        while current_len < num_cols:
+            c = usable_cols[c_idx]
+            c_idx += 1
+            while c == -1:
+                c = usable_cols[c_idx]
+                c_idx += 1
+            coo2.append((current, c, 0))
+            current_len += 1
+    
+    # TODO: We need some kind of sorting still
     
     print(coo2)
 
