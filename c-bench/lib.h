@@ -30,6 +30,7 @@ typedef struct {
     // only for debug
     int colptr_len;
     int colidx_len;
+    int val_len;
 } BCSR;
 
 typedef struct {
@@ -52,7 +53,7 @@ CSR *create_csr(int rows, int cols);
 void print_csr(char *label, CSR *csr);
 void copy_csr(CSR *csr, float *matrix, int rows, int cols);
 
-BCSR *create_bcsr(int rows, int cols);
+BCSR *create_bcsr(int rows, int cols, float *sparse_matrix);
 BCSR *create_bcsr1(int rows, int cols);
 void print_bcsr(char *label, BCSR *csr);
 void copy_bcsr(BCSR *csr, float *matrix, int rows, int cols);

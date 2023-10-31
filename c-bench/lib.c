@@ -220,42 +220,158 @@ void print_csr(char *label, CSR *csr) {
 //
 // BCSR methods
 //
-BCSR *create_bcsr(int row_count, int col_count) {
-    int total_size = row_count * col_count;
-    int max = total_size / 6;
-    int block_size = row_count / 4;
-    
-    int max_blocks = rand() % (block_size + 2);
-    while (max_blocks == 0) max_blocks = rand() % (block_size + 2);
-    int cur_block = 0;
-    //printf("Max Blocks: %d\n", max_blocks);
-    
-    BCSR *bcsr = malloc(sizeof(BCSR));
-    bcsr->block_row = block_size;
-    bcsr->block_col = block_size;
-    bcsr->colptr = malloc(sizeof(int)*max_blocks+1);
-    bcsr->colptr_len = max_blocks+1;
-    bcsr->rows = max_blocks;
-    
-    int colptr_idx = 0;
-    
-    for (int i = 0; i<col_count; i+=block_size) {
-        if (cur_block > max_blocks) {
-            bcsr->colptr[colptr_idx] = bcsr->colptr[colptr_idx-1] + 2;
-            break;
+typedef struct {
+    int i;
+    int j;
+    float value;
+} Coord;
+
+int has_values(int i, int mi, int j, int mj, Coord coo[], int coo_len) {
+    for (int bi = i; bi<mi; bi++) {
+        for (int bj = j; bj<mj; bj++) {
+            for (int p = 0; p<coo_len; p++) {
+                if (coo[p].i == bi && coo[p].j == bj) {
+                    return 1;
+                }
+            }
         }
-        
-        bcsr->colptr[colptr_idx] = i;
-        ++colptr_idx;
+    }
+    return 0;
+}
+
+BCSR *create_bcsr(int row_count, int col_count, float *sparse_matrix) {
+    // First, generate a bunch of random COO coordinates
+    // Bad practice... overallocate
+    Coord coo[row_count * col_count];
+    int coo_index = 0;
+    
+    int density = 10;
+    for (int i = 0; i<row_count - 4; i++) {
+        for (int j = 0; j<col_count - 4; j++) {
+            if ((rand() % 1001) < density) {
+                float value = (float)rand()/(float)(RAND_MAX/11);
+                Coord c = {i, j, value};
+                coo[coo_index] = c;
+                ++coo_index;
+            }
+        }
     }
     
-    bcsr->colidx_len = max_blocks * block_size;
-    bcsr->colidx = malloc(sizeof(int)*bcsr->colidx_len);
-    bcsr->values = malloc(sizeof(float)*bcsr->colidx_len);
+    // debug
+    /*for (int i = 0; i<coo_index; i++) {
+        printf("(%d, %d, %.0f)\n", coo[i].i, coo[i].j, coo[i].value);
+    }
+    printf("--Total: %d of %d\n", coo_index, row_count*col_count);*/
     
-    for (int i = 0; i<bcsr->colidx_len; i++) {
-        bcsr->colidx[i] = rand() % (block_size / 4);
-        bcsr->values[i] = (float)rand()/(float)(RAND_MAX/11);
+    // Step 1: Determine block size
+    int block_rows = row_count / 32;
+    int block_cols = col_count / 32;
+    printf("Block_rows: %d | Block_cols: %d\n", block_rows, block_cols);
+    
+    // Step 2: Create some temporary structures to old intermediate data
+    int A2pos_nc_buf[col_count];
+    int A2crd_buf[col_count];
+    int A2pos_nc_idx = 0;
+    int A2crd_idx = 0;
+    
+    float Aval_buf[row_count*col_count];
+    int Aval_buf_idx = 0;
+    
+    for (int i = 0; i<row_count; i+=block_rows) {
+        for (int j = 0; j<col_count; j+=block_cols) {
+            if (!has_values(i, i+block_rows, j, j+block_cols, coo, coo_index)) continue;
+            A2pos_nc_buf[A2pos_nc_idx] = i / block_rows;
+            A2crd_buf[A2crd_idx] = j / block_cols;
+            ++A2pos_nc_idx;
+            ++A2crd_idx;
+            
+            // Add all the values
+            for (int bi = i; bi<(i+block_rows); bi++) {
+                for (int bj = j; bj<(j+block_cols); bj++) {
+                    int found = 0;
+                    for (int p = 0; p<coo_index; p++) {
+                        if (coo[p].i == bi && coo[p].j == bj) {
+                            Aval_buf[Aval_buf_idx] = coo[p].value;
+                            ++Aval_buf_idx;
+                            found = 1;
+                            break;
+                        }
+                    }
+                    if (found == 0) {
+                        Aval_buf[Aval_buf_idx] = 0;
+                        ++Aval_buf_idx;
+                    }
+                }
+            }
+        }
+    }
+    
+    // Compress the row coordinates
+    int A2pos_buf[col_count];
+    A2pos_buf[0] = 0;
+    int A2pos_idx = 1;
+    
+    int current = A2pos_nc_buf[0];
+    int current_end = 1;
+    for (int i = 1; i<A2pos_nc_idx; i++) {
+        if (A2pos_nc_buf[i] != current) {
+            A2pos_buf[A2pos_idx] = current_end;
+            ++A2pos_idx;
+            current = A2pos_nc_buf[i];
+        }
+        current_end++;
+    }
+    A2pos_buf[A2pos_idx] = current_end;
+    ++A2pos_idx;
+    
+    int A1pos = A2pos_idx - 1;
+    
+    // debug
+    printf("A1pos: %d\n", A1pos);
+    printf("A2pos: [");
+    for (int i = 0; i<A2pos_idx; i++) {
+        printf("%d ", A2pos_buf[i]);
+    }
+    puts("]");
+    printf("A2crd: [");
+    for (int i = 0; i<A2crd_idx; i++) {
+        printf("%d ", A2crd_buf[i]);
+    }
+    puts("]");
+    printf("Aval: [");
+    for (int i = 0; i<Aval_buf_idx; i++) {
+        printf("%.0f ", Aval_buf[i]);
+    }
+    puts("]");
+    
+    // Now, copy everything over
+    BCSR *bcsr = malloc(sizeof(BCSR));
+    bcsr->rows = A1pos;
+    bcsr->colptr_len = A2pos_idx;
+    bcsr->colidx_len = A2crd_idx;
+    bcsr->val_len = Aval_buf_idx;
+    bcsr->colptr = malloc(sizeof(int)*A2pos_idx);
+    bcsr->colidx = malloc(sizeof(int)*A2crd_idx);
+    bcsr->values = malloc(sizeof(float)*Aval_buf_idx);
+    bcsr->block_row = block_rows;
+    bcsr->block_col = block_cols;
+    
+    for (int i = 0; i<A2pos_idx; i++) {
+        bcsr->colptr[i] = A2pos_buf[i];
+    }
+    
+    for (int i = 0; i<A2crd_idx; i++) {
+        bcsr->colidx[i] = A2crd_buf[i];
+    }
+    
+    for (int i = 0; i<Aval_buf_idx; i++) {
+        bcsr->values[i] = Aval_buf[i];
+    }
+    
+    // Finally, copy to our test sparse array
+    for (int p = 0; p<coo_index; p++) {
+        Coord c = coo[p];
+        sparse_matrix[c.i*col_count+c.j] = c.value;
     }
     
     return bcsr;    
@@ -268,6 +384,7 @@ BCSR *create_bcsr1(int rows, int cols) {
     bcsr->rows = csr->rows;
     bcsr->colptr_len = csr->colptr_len;
     bcsr->colidx_len = csr->colidx_len;
+    bcsr->val_len = csr->colidx_len;
     bcsr->colptr = malloc(sizeof(int)*csr->colptr_len);
     bcsr->colidx = malloc(sizeof(int)*csr->colidx_len);
     bcsr->values = malloc(sizeof(int)*csr->colidx_len);
@@ -292,7 +409,7 @@ void print_bcsr(char *label, BCSR *bcsr) {
     printf("Block Row: %d\n", bcsr->block_row);
     printf("Block Col: %d\n", bcsr->block_col);
     printf("Vals: [");
-    for (int i = 0; i<bcsr->colidx_len; i++) printf("%.0f ", bcsr->values[i]);
+    for (int i = 0; i<bcsr->val_len; i++) printf("%.0f ", bcsr->values[i]);
     puts("]");
     puts("---------------------------------------------------");
 }

@@ -55,14 +55,14 @@ int main() {
     double sparse_time_spent = 0;
     
     // Fill the matrices
-    A1 = create_bcsr(N, N);
+    A1 = create_bcsr(N, N, A2);
     fill_zero(A2, N, N);
     //copy_bcsr(A1, A2, N, N);
     fill_dense(B, N, N);
     fill_zero(C1, N, N);
     fill_zero(C2, N, N);
     
-    print_bcsr("A1", A1);
+    //print_bcsr("A1", A1);
     //print_matrix("A2", A2, N, N);
     
     // Run
