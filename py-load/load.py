@@ -100,6 +100,49 @@ def generate_ellpack(coo):
     
     print(coo2)
 
+##
+## Generates a BCSR matrix and loads its
+##
+def generate_bcsr(coo):
+    size = coo[0]
+    rows = size[0]
+    cols = size[1]
+    coo = coo[1:]
+    print(coo)
+    
+    coo2 = list()
+    
+    # Step 1: Determine block size
+    # TODO: Let us think about this. For now, quick solution
+    block_rows = int(rows / 2)
+    block_cols = int(cols / 2)
+    print("Block_rows: ", block_rows, " | Block_cols: ", block_cols)
+    
+    # Step 2: Examine the blocks
+    # We only want the blocks with values
+    #
+    # From here, we can start building the A2 dimension
+    #
+    for i in range(0, rows, block_rows):
+        for j in range(0, cols, block_cols):
+        
+            for bi in range(i, i+block_rows):
+                print("-bi: ", bi)
+            
+            #for j in range(0, cols, block_cols):
+                for bj in range(j, j+block_cols):
+                    print("bj: ", bj)
+                print("--")
+            
+        # Check and see if this area needs padding
+        
+        
+            print("----")
+        
+    # Print the final
+    print(coo2)
+
 ## Run the generator
-generate_ellpack(coo)
+#generate_ellpack(coo)
+generate_bcsr(coo)
 
