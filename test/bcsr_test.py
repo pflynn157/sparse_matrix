@@ -24,7 +24,7 @@ def bcsr_multiply(bcsr_mtx, dense_mtx, m, n):
                     
                     print(f"n1 * A1_block_pos + bi = {n1}*{A1_block_pos}+{bi} = {i}")
                     print(f"A2_crd[n2] * A2_block_pos + bj = {A2_crd[n2]}*{A2_block_pos}+{bj} = {j}")
-                    print(f"n2*(A1_block_pos*A2_block_pos) + bi * A2_block_pos + bj = {n2}*{(A1_block_pos*A2_block_pos)}+{bi}*{A2_block_pos}+{bj} = {index}")
+                    print(f"n2*(A1_block_pos*A2_block_pos) + bi * A2_block_pos + bj = {n2}*{(A1_block_pos*A2_block_pos)}+{bi}*{A2_block_pos}+{bj} = {index} = {Aval[index]}")
                     
                     #print(f"I: {i} | J: {j} | Value: {index}")
                     
