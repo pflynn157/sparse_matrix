@@ -246,8 +246,8 @@ BCSR *create_bcsr(int row_count, int col_count, float *sparse_matrix) {
     int coo_index = 0;
     
     int density = 10;
-    for (int i = 0; i<row_count - 4; i++) {
-        for (int j = 0; j<col_count - 4; j++) {
+    for (int i = 0; i<row_count; i++) {
+        for (int j = 0; j<col_count; j++) {
             if ((rand() % 1001) < density) {
                 float value = (float)rand()/(float)(RAND_MAX/11);
                 Coord c = {i, j, value};
@@ -264,9 +264,9 @@ BCSR *create_bcsr(int row_count, int col_count, float *sparse_matrix) {
     printf("--Total: %d of %d\n", coo_index, row_count*col_count);*/
     
     // Step 1: Determine block size
-    int block_rows = row_count / 32;
-    int block_cols = col_count / 32;
-    printf("Block_rows: %d | Block_cols: %d\n", block_rows, block_cols);
+    int block_rows = row_count / 20;
+    int block_cols = col_count / 20;
+    //printf("Block_rows: %d | Block_cols: %d\n", block_rows, block_cols);
     
     // Step 2: Create some temporary structures to old intermediate data
     int A2pos_nc_buf[col_count];
@@ -327,7 +327,7 @@ BCSR *create_bcsr(int row_count, int col_count, float *sparse_matrix) {
     int A1pos = A2pos_idx - 1;
     
     // debug
-    printf("A1pos: %d\n", A1pos);
+    /*printf("A1pos: %d\n", A1pos);
     printf("A2pos: [");
     for (int i = 0; i<A2pos_idx; i++) {
         printf("%d ", A2pos_buf[i]);
@@ -342,7 +342,10 @@ BCSR *create_bcsr(int row_count, int col_count, float *sparse_matrix) {
     for (int i = 0; i<Aval_buf_idx; i++) {
         printf("%.0f ", Aval_buf[i]);
     }
-    puts("]");
+    puts("]");*/
+    /*printf("A2pos len: %d\n", A2pos_idx);
+    printf("A2crd len: %d\n", A2crd_idx);
+    printf("Aval len: %d\n", Aval_buf_idx);*/
     
     // Now, copy everything over
     BCSR *bcsr = malloc(sizeof(BCSR));

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define N 512
+#define N 500
 
 // Forward declarations
 void fill_dense(float *matrix, int rows, int cols);

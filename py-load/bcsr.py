@@ -68,8 +68,8 @@ def generate_bcsr(coo):
     
     # Step 1: Determine block size
     # TODO: Let us think about this. For now, quick solution
-    block_rows = int(rows / 2)
-    block_cols = int(cols / 2)
+    block_rows = int(rows / 100)
+    block_cols = int(cols / 100)
     print("Block_rows: ", block_rows, " | Block_cols: ", block_cols)
     
     # Step 2: Examine the blocks
@@ -202,6 +202,6 @@ def test2(n):
     run_test(coo, n, n)
     
 
-test1()
-test2(100)
+#test1()
+test2(500)
 

@@ -4,7 +4,7 @@
 
 #include "lib.h"
 
-#define N 128
+#define N 500
 
 //
 // Multiplication
@@ -57,7 +57,7 @@ int main() {
     // Fill the matrices
     A1 = create_bcsr(N, N, A2);
     fill_zero(A2, N, N);
-    //copy_bcsr(A1, A2, N, N);
+    copy_bcsr(A1, A2, N, N);
     fill_dense(B, N, N);
     fill_zero(C1, N, N);
     fill_zero(C2, N, N);
