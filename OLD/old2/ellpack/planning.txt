@@ -1,5 +1,0 @@
-Goal: devise working example to reflect IT and SCF
-structure.
-
-Emulate the IR as much as possible.
-
