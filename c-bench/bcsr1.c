@@ -23,7 +23,9 @@ void multiply(float *A, float *B, float *C, int rows, int cols) {
 void bcsr_multiply(BCSR *A, float *B, float *C, int rows, int cols) {
     for (int n1 = 0; n1<A->rows; n1++) {
         for (int bi = 0; bi<A->block_row; bi++) {
-            for (int n2 = A->colptr[n1]; n2<A->colptr[n1+1]; n2++) {
+            int start = A->colptr[n1];
+            int end = A->colptr[n1+1];
+            for (int n2 = start; n2<end; n2++) {
                 for (int bj = 0; bj<A->block_col; bj++) {
                     int i = n1 * A->block_row + bi;
                     int j =  A->colidx[n2] * A->block_col + bj;
