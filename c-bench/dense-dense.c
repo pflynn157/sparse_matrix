@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define N 500
-
 // Forward declarations
 void fill_dense(float *matrix, int rows, int cols);
 void fill_zero(float *matrix, int rows, int cols);
@@ -27,7 +25,13 @@ void multiply(float *A, float *B, float *C, int rows, int cols) {
 //
 // Entry point
 //
-int main() {
+int main(int argc, char **argv) {
+    int N = 512;
+    if (argc > 1) {
+        N = atoi(argv[1]);
+    }
+    //printf("Running with size: %d\n", N);
+
     float *A = malloc(sizeof(float)*N*N);
     float *B = malloc(sizeof(float)*N*N);
     float *C1 = malloc(sizeof(float)*N*N);      // Serial
@@ -52,8 +56,9 @@ int main() {
     multiply(A, B, C2, N, N);
     
     int correct = check(C1, C2, N, N);
-    printf("Correct: %d\n", correct);
-    printf("Serial Time: %lf\n", serial_time_spent);
+    //printf("Correct: %d\n", correct);
+    //printf("Serial Time: %lf\n", serial_time_spent);
+    printf("DxD,%lf,%d,%d\n", serial_time_spent, correct, N);
 
     return 0;
 }

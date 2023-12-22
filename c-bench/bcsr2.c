@@ -4,7 +4,7 @@
 
 #include "lib.h"
 
-#define N 500
+#define N 512
 
 //
 // Multiplication

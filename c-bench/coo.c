@@ -4,8 +4,6 @@
 
 #include "lib.h"
 
-#define N 500
-
 //
 // Multiplication
 //
@@ -33,8 +31,13 @@ void coo_multiply(COO *A, float *B, float *C, int rows, int cols) {
 //
 // Entry point
 //
-int main() {
+int main(int argc, char **argv) {
     srand(time(NULL));
+    
+    int N = 512;
+    if (argc > 1) {
+        N = atoi(argv[1]);
+    }
     
     COO *A1;
     float *A2 = malloc(sizeof(float)*N*N);
@@ -73,9 +76,10 @@ int main() {
     //print_matrix("C2", C2, N, N);
     
     int correct = check(C1, C2, N, N);
-    printf("Correct: %d\n", correct);
-    printf("Serial Time: %lf\n", serial_time_spent);
-    printf("Sparse Time: %lf\n", sparse_time_spent);
+    //printf("Correct: %d\n", correct);
+    //printf("Serial Time: %lf\n", serial_time_spent);
+    //printf("Sparse Time: %lf\n", sparse_time_spent);
+    printf("COO,%lf,%lf,%d\n", sparse_time_spent, serial_time_spent, correct);
 
     return 0;
 }

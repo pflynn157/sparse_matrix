@@ -4,8 +4,6 @@
 
 #include "lib.h"
 
-#define N 500
-
 //
 // Multiplication
 //
@@ -21,9 +19,9 @@ void multiply(float *A, float *B, float *C, int rows, int cols) {
 }
 
 void ell_multiply(ELL *A, float *B, float *C, int rows, int cols) {
-    for (int i = 0; i<A->rows; i++) {
-        for (int c = 0; c<A->cols; c++) {
-            int n = i * A->cols + c;
+    for (int i = 0; i<A->cols; i++) {
+        for (int n1 = 0; n1<A->rows; n1++) {
+            int n = n1 * A->cols + i;
             int j = A->colidx[n];
             for (int k = 0; k<cols; k++) {
                 C[i*cols+k] += A->values[n] * B[j*cols+k];
@@ -35,8 +33,13 @@ void ell_multiply(ELL *A, float *B, float *C, int rows, int cols) {
 //
 // Entry point
 //
-int main() {
+int main(int argc, char **argv) {
     srand(time(NULL));
+    
+    int N = 512;
+    if (argc > 1) {
+        N = atoi(argv[1]);
+    }
     
     ELL *A1;
     float *A2 = malloc(sizeof(float)*N*N);
@@ -75,9 +78,10 @@ int main() {
     //print_matrix("C2", C2, N, N);
     
     int correct = check(C1, C2, N, N);
-    printf("Correct: %d\n", correct);
-    printf("Serial Time: %lf\n", serial_time_spent);
-    printf("Sparse Time: %lf\n", sparse_time_spent);
+    //printf("Correct: %d\n", correct);
+    //printf("Serial Time: %lf\n", serial_time_spent);
+    //printf("Sparse Time: %lf\n", sparse_time_spent);
+    printf("ELL,%lf,%lf,%d\n", sparse_time_spent, serial_time_spent, correct);
 
     return 0;
 }
