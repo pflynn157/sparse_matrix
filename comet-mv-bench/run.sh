@@ -146,34 +146,34 @@ function run_benchmark() {
 #export SPARSE_FILE_NAME0=../data/test_bench1024.mtx
 #run_benchmark "bench1024"
 
-export SPARSE_FILE_NAME0=../data/data/bcsstk17/bcsstk17.mtx
-run_benchmark "bcsstk17"
+#export SPARSE_FILE_NAME0=../data/data/bcsstk17/bcsstk17.mtx
+#run_benchmark "bcsstk17"
 
-export SPARSE_FILE_NAME0=../data/data/cant/cant.mtx
-run_benchmark "cant"
+#export SPARSE_FILE_NAME0=../data/data/cant/cant.mtx
+#run_benchmark "cant"
 
-export SPARSE_FILE_NAME0=../data/data/consph/consph.mtx
-run_benchmark "consph"
+#export SPARSE_FILE_NAME0=../data/data/consph/consph.mtx
+#run_benchmark "consph"
 
-export SPARSE_FILE_NAME0=../data/data/cop20k_A/cop20k_A.mtx
-run_benchmark "cop20k_A"
+#export SPARSE_FILE_NAME0=../data/data/cop20k_A/cop20k_A.mtx
+#run_benchmark "cop20k_A"
 
-export SPARSE_FILE_NAME0=../data/data/pdb1HYS/pdb1HYS.mtx
-run_benchmark "pdb1HYS"
+#export SPARSE_FILE_NAME0=../data/data/pdb1HYS/pdb1HYS.mtx
+#run_benchmark "pdb1HYS"
 
-export SPARSE_FILE_NAME0=../data/data/rma10/rma10.mtx
-run_benchmark "rma10"
+#export SPARSE_FILE_NAME0=../data/data/rma10/rma10.mtx
+#run_benchmark "rma10"
 
-export SPARSE_FILE_NAME0=../data/data/rma10_b/rma10_b.mtx
+export SPARSE_FILE_NAME0=../data/data/rma10/rma10_b.mtx
 run_benchmark "rma10_b"
 
-export SPARSE_FILE_NAME0=../data/data/scircuit/scircuit.mtx
-run_benchmark "scircuit"
+#export SPARSE_FILE_NAME0=../data/data/scircuit/scircuit.mtx
+#run_benchmark "scircuit"
 
-export SPARSE_FILE_NAME0=../data/data/scircuit/scircuit_b.mtx
-run_benchmark "scircuit_b"
+#export SPARSE_FILE_NAME0=../data/data/scircuit/scircuit_b.mtx
+#run_benchmark "scircuit_b"
 
-export SPARSE_FILE_NAME0=../data/data/shipsec1/consph.mtx
+export SPARSE_FILE_NAME0=../data/data/shipsec1/shipsec1.mtx
 run_benchmark "shipsec1"
 
 
