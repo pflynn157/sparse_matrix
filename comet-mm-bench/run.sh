@@ -22,7 +22,7 @@ export COMET_PATH="/home/pflynn5/COMET/build"
 export LLVM_PATH="/home/pflynn5/COMET/llvm/build/bin"
 
 
-number_iters=20
+number_iters=10
 
 ##
 ## Depends on environment variables being set
@@ -95,17 +95,17 @@ function run_benchmark() {
     #        -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_8x8.csv
     #done
     # 
-    #export BLOCK_ROWS=16
-    #export BLOCK_ROWS=16
-    #echo "Running $1 for BCSR 16x16"
-    #printf "" > csv/BCSR/BCSR_$1_16x16.csv
-    #for _ in $(seq $number_iters)
-    #do
-    #    $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm bcsr_mm.ta &> build/bcsr_mm.mlir
-    #    $LLVM_PATH/mlir-cpu-runner build/bcsr_mm.mlir -O3 -e main -entry-point-result=void \
-    #        -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_16x16.csv
-    #done
-    #
+    export BLOCK_ROWS=16
+    export BLOCK_ROWS=16
+    echo "Running $1 for BCSR 16x16"
+    printf "" > csv/BCSR/BCSR_$1_16x16.csv
+    for _ in $(seq $number_iters)
+    do
+        $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm bcsr_mm.ta &> build/bcsr_mm.mlir
+        $LLVM_PATH/mlir-cpu-runner build/bcsr_mm.mlir -O3 -e main -entry-point-result=void \
+            -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_16x16.csv
+    done
+    
     #export BLOCK_ROWS=32
     #export BLOCK_ROWS=32
     #echo "Running $1 for BCSR for 32x32"
