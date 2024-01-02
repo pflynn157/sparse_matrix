@@ -62,8 +62,19 @@ function run_benchmark() {
     
     # BCSR
     # Block sizes 2, 4, 8, 16, 32, default
+    export BLOCK_ROWS=1
+    export BLOCK_COLS=1
+    echo "Running $1 for BCSR 1x1"
+    printf "" > csv/BCSR/BCSR_$1_1x1.csv
+    for _ in $(seq $number_iters)
+    do
+        $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm bcsr_mv.ta &> build/bcsr_mv.mlir
+        $LLVM_PATH/mlir-cpu-runner build/bcsr_mv.mlir -O3 -e main -entry-point-result=void \
+            -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_1x1.csv
+    done
+    
     export BLOCK_ROWS=2
-    export BLOCK_ROWS=2
+    export BLOCK_COLS=2
     echo "Running $1 for BCSR 2x2"
     printf "" > csv/BCSR/BCSR_$1_2x2.csv
     for _ in $(seq $number_iters)
@@ -74,7 +85,7 @@ function run_benchmark() {
     done
     
     export BLOCK_ROWS=4
-    export BLOCK_ROWS=4
+    export BLOCK_COLS=4
     echo "Running $1 for BCSR 4x4"
     printf "" > csv/BCSR/BCSR_$1_4x4.csv
     for _ in $(seq $number_iters)
@@ -96,7 +107,7 @@ function run_benchmark() {
     #done
     # 
     export BLOCK_ROWS=16
-    export BLOCK_ROWS=16
+    export BLOCK_COLS=16
     echo "Running $1 for BCSR 16x16"
     printf "" > csv/BCSR/BCSR_$1_16x16.csv
     for _ in $(seq $number_iters)
@@ -146,18 +157,17 @@ function run_benchmark() {
 #export SPARSE_FILE_NAME0=../data/test_bench1024.mtx
 #run_benchmark "bench1024"
 
-#export SPARSE_FILE_NAME0=../data/data/bcsstk17/bcsstk17.mtx
-#run_benchmark "bcsstk17"
+export SPARSE_FILE_NAME0=../data/data/bcsstk17/bcsstk17.mtx
+run_benchmark "bcsstk17"
 
-#export SPARSE_FILE_NAME0=../data/data/cant/cant.mtx
-#run_benchmark "cant"
+export SPARSE_FILE_NAME0=../data/data/cant/cant.mtx
+run_benchmark "cant"
 
-#export SPARSE_FILE_NAME0=../data/data/consph/consph.mtx
-#run_benchmark "consph"
+export SPARSE_FILE_NAME0=../data/data/consph/consph.mtx
+run_benchmark "consph"
 
-# TODO: Run for all but 2x2
-#export SPARSE_FILE_NAME0=../data/data/cop20k_A/cop20k_A.mtx
-#run_benchmark "cop20k_A"
+export SPARSE_FILE_NAME0=../data/data/cop20k_A/cop20k_A.mtx
+run_benchmark "cop20k_A"
 
 export SPARSE_FILE_NAME0=../data/data/pdb1HYS/pdb1HYS.mtx
 run_benchmark "pdb1HYS"
