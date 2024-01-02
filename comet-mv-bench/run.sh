@@ -22,7 +22,7 @@ export COMET_PATH="/home/pflynn5/COMET/build"
 export LLVM_PATH="/home/pflynn5/COMET/llvm/build/bin"
 
 
-number_iters=20
+number_iters=10
 
 ##
 ## Depends on environment variables being set
@@ -95,17 +95,17 @@ function run_benchmark() {
     #        -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_8x8.csv
     #done
     # 
-    #export BLOCK_ROWS=16
-    #export BLOCK_ROWS=16
-    #echo "Running $1 for BCSR 16x16"
-    #printf "" > csv/BCSR/BCSR_$1_16x16.csv
-    #for _ in $(seq $number_iters)
-    #do
-    #    $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm bcsr_mv.ta &> build/bcsr_mv.mlir
-    #    $LLVM_PATH/mlir-cpu-runner build/bcsr_mv.mlir -O3 -e main -entry-point-result=void \
-    #        -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_16x16.csv
-    #done
-    #
+    export BLOCK_ROWS=16
+    export BLOCK_ROWS=16
+    echo "Running $1 for BCSR 16x16"
+    printf "" > csv/BCSR/BCSR_$1_16x16.csv
+    for _ in $(seq $number_iters)
+    do
+        $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm bcsr_mv.ta &> build/bcsr_mv.mlir
+        $LLVM_PATH/mlir-cpu-runner build/bcsr_mv.mlir -O3 -e main -entry-point-result=void \
+            -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_16x16.csv
+    done
+    
     #export BLOCK_ROWS=32
     #export BLOCK_ROWS=32
     #echo "Running $1 for BCSR for 32x32"
@@ -128,16 +128,16 @@ function run_benchmark() {
     #        -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_64x64.csv
     #done
     #
-    unset BLOCK_ROWS
-    unset BLOCK_ROWS
-    echo "Running $1 for BCSR default"
-    printf "" > csv/BCSR/BCSR_$1_default.csv
-    for _ in $(seq $number_iters)
-    do
-        $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm bcsr_mv.ta &> build/bcsr_mv.mlir
-        $LLVM_PATH/mlir-cpu-runner build/bcsr_mv.mlir -O3 -e main -entry-point-result=void \
-            -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_default.csv
-    done
+    #unset BLOCK_ROWS
+    #unset BLOCK_ROWS
+    #echo "Running $1 for BCSR default"
+    #printf "" > csv/BCSR/BCSR_$1_default.csv
+    #for _ in $(seq $number_iters)
+    #do
+    #    $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm bcsr_mv.ta &> build/bcsr_mv.mlir
+    #    $LLVM_PATH/mlir-cpu-runner build/bcsr_mv.mlir -O3 -e main -entry-point-result=void \
+    #        -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_default.csv
+    #done
 }
 
 #export SPARSE_FILE_NAME0=../data/test_bench512.mtx
@@ -146,17 +146,18 @@ function run_benchmark() {
 #export SPARSE_FILE_NAME0=../data/test_bench1024.mtx
 #run_benchmark "bench1024"
 
-export SPARSE_FILE_NAME0=../data/data/bcsstk17/bcsstk17.mtx
-run_benchmark "bcsstk17"
+#export SPARSE_FILE_NAME0=../data/data/bcsstk17/bcsstk17.mtx
+#run_benchmark "bcsstk17"
 
-export SPARSE_FILE_NAME0=../data/data/cant/cant.mtx
-run_benchmark "cant"
+#export SPARSE_FILE_NAME0=../data/data/cant/cant.mtx
+#run_benchmark "cant"
 
-export SPARSE_FILE_NAME0=../data/data/consph/consph.mtx
-run_benchmark "consph"
+#export SPARSE_FILE_NAME0=../data/data/consph/consph.mtx
+#run_benchmark "consph"
 
-export SPARSE_FILE_NAME0=../data/data/cop20k_A/cop20k_A.mtx
-run_benchmark "cop20k_A"
+# TODO: Run for all but 2x2
+#export SPARSE_FILE_NAME0=../data/data/cop20k_A/cop20k_A.mtx
+#run_benchmark "cop20k_A"
 
 export SPARSE_FILE_NAME0=../data/data/pdb1HYS/pdb1HYS.mtx
 run_benchmark "pdb1HYS"
@@ -164,14 +165,14 @@ run_benchmark "pdb1HYS"
 export SPARSE_FILE_NAME0=../data/data/rma10/rma10.mtx
 run_benchmark "rma10"
 
-export SPARSE_FILE_NAME0=../data/data/rma10/rma10_b.mtx
-run_benchmark "rma10_b"
+#export SPARSE_FILE_NAME0=../data/data/rma10/rma10_b.mtx
+#run_benchmark "rma10_b"
 
 export SPARSE_FILE_NAME0=../data/data/scircuit/scircuit.mtx
 run_benchmark "scircuit"
 
-export SPARSE_FILE_NAME0=../data/data/scircuit/scircuit_b.mtx
-run_benchmark "scircuit_b"
+#export SPARSE_FILE_NAME0=../data/data/scircuit/scircuit_b.mtx
+#run_benchmark "scircuit_b"
 
 export SPARSE_FILE_NAME0=../data/data/shipsec1/shipsec1.mtx
 run_benchmark "shipsec1"
