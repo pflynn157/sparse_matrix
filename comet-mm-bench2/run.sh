@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if [ ! -d build ]
-then
-    mkdir build
-fi
-
 if [ ! -d csv ]
 then
     mkdir csv
@@ -30,19 +25,22 @@ function run_benchmark() {
     # CSR
     printf "" > csv/CSR/CSR_$1.csv
     echo "Running $1 for CSR"
-    $LLVM_PATH/mlir-cpu-runner $1/csr_$1.mlir -O3 -e main -entry-point-result=void \
+    $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm $1/csr_$1.mlir &> build/csr_$1.mlir
+    $LLVM_PATH/mlir-cpu-runner build/csr_$1.mlir -O3 -e main -entry-point-result=void \
         -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/CSR/CSR_$1.csv 
     
     # COO
     printf "" > csv/COO/COO_$1.csv
     echo "Running $1 for COO"
-    $LLVM_PATH/mlir-cpu-runner $1/coo_$1.mlir -O3 -e main -entry-point-result=void \
+    $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm $1/coo_$1.mlir &> build/coo_$1.mlir
+    $LLVM_PATH/mlir-cpu-runner build/coo_$1.mlir -O3 -e main -entry-point-result=void \
         -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/COO/COO_$1.csv
     
     # ELL
     printf "" > csv/ELL/ELL_$1.csv
     echo "Running $1 for ELL"
-    $LLVM_PATH/mlir-cpu-runner $1/ell_$1.mlir -O3 -e main -entry-point-result=void \
+    $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm $1/ell_$1.mlir &> build/ell_$1.mlir
+    $LLVM_PATH/mlir-cpu-runner build/ell_$1.mlir -O3 -e main -entry-point-result=void \
         -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/ELL/ELL_$1.csv
     
     # BCSR
@@ -51,7 +49,8 @@ function run_benchmark() {
     export BLOCK_COLS=1
     echo "Running $1 for BCSR 1x1"
     printf "" > csv/BCSR/BCSR_$1_2x2.csv
-    $LLVM_PATH/mlir-cpu-runner $1/bcsr_$1.mlir -O3 -e main -entry-point-result=void \
+    $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm $1/bcsr_$1.mlir &> build/bcsr_$1.mlir
+    $LLVM_PATH/mlir-cpu-runner build/bcsr_$1.mlir -O3 -e main -entry-point-result=void \
         -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_2x2.csv
    
 }
