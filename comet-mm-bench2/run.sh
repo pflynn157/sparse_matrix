@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ ! -d build ]
+then
+    mkdir build
+fi
+
 if [ ! -d csv ]
 then
     mkdir csv
