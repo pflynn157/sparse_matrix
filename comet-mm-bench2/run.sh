@@ -48,69 +48,64 @@ function run_benchmark() {
     export BLOCK_ROWS=1
     export BLOCK_COLS=1
     echo "Running $1 for BCSR 1x1"
+    printf "" > csv/BCSR/BCSR_$1_1x1.csv
+    $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm $1/bcsr_$1.mlir &> build/bcsr_$1.mlir
+    $LLVM_PATH/mlir-cpu-runner build/bcsr_$1.mlir -O3 -e main -entry-point-result=void \
+        -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_1x1.csv
+    
+    # Block size 2
+    export BLOCK_ROWS=2
+    export BLOCK_COLS=2
+    echo "Running $1 for BCSR 2x2"
     printf "" > csv/BCSR/BCSR_$1_2x2.csv
     $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm $1/bcsr_$1.mlir &> build/bcsr_$1.mlir
     $LLVM_PATH/mlir-cpu-runner build/bcsr_$1.mlir -O3 -e main -entry-point-result=void \
         -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_2x2.csv
-   
+    
+    # Block size 4
+    export BLOCK_ROWS=4
+    export BLOCK_COLS=4
+    echo "Running $1 for BCSR 4x4"
+    printf "" > csv/BCSR/BCSR_$1_4x4.csv
+    $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm $1/bcsr_$1.mlir &> build/bcsr_$1.mlir
+    $LLVM_PATH/mlir-cpu-runner build/bcsr_$1.mlir -O3 -e main -entry-point-result=void \
+        -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_4x4.csv
+        
+    # Block size 16
+    export BLOCK_ROWS=16
+    export BLOCK_COLS=16
+    echo "Running $1 for BCSR 16x16"
+    printf "" > csv/BCSR/BCSR_$1_16x16.csv
+    $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm $1/bcsr_$1.mlir &> build/bcsr_$1.mlir
+    $LLVM_PATH/mlir-cpu-runner build/bcsr_$1.mlir -O3 -e main -entry-point-result=void \
+        -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_16x16.csv
 }
 
 export SPARSE_FILE_NAME0=../data/data/bcsstk17/bcsstk17.mtx
 run_benchmark "bcsstk17"
 
-#export SPARSE_FILE_NAME0=../data/data/cant/cant.mtx
-#run_benchmark "cant"
+export SPARSE_FILE_NAME0=../data/data/cant/cant.mtx
+run_benchmark "cant"
 
-# Only need BCSR default
-#export SPARSE_FILE_NAME0=../data/data/consph/consph.mtx
-#run_benchmark "consph"
+export SPARSE_FILE_NAME0=../data/data/consph/consph.mtx
+run_benchmark "consph"
 
-#export SPARSE_FILE_NAME0=../data/data/cop20k_A/cop20k_A.mtx
-#run_benchmark "cop20k_A"
+export SPARSE_FILE_NAME0=../data/data/cop20k_A/cop20k_A.mtx
+run_benchmark "cop20k_A"
 
-#export SPARSE_FILE_NAME0=../data/data/pdb1HYS/pdb1HYS.mtx
-#run_benchmark "pdb1HYS"
-#
-#export SPARSE_FILE_NAME0=../data/data/rma10/rma10.mtx
-#run_benchmark "rma10"
-#
-#export SPARSE_FILE_NAME0=../data/data/rma10/rma10_b.mtx
-#run_benchmark "rma10_b"
+export SPARSE_FILE_NAME0=../data/data/pdb1HYS/pdb1HYS.mtx
+run_benchmark "pdb1HYS"
 
-#export SPARSE_FILE_NAME0=../data/data/scircuit/scircuit.mtx
-#run_benchmark "scircuit"
+export SPARSE_FILE_NAME0=../data/data/rma10/rma10.mtx
+run_benchmark "rma10"
 
-#export SPARSE_FILE_NAME0=../data/data/scircuit/scircuit_b.mtx
-#run_benchmark "scircuit_b"
+export SPARSE_FILE_NAME0=../data/data/scircuit/scircuit.mtx
+run_benchmark "scircuit"
 
-#export SPARSE_FILE_NAME0=../data/data/shipsec1/shipsec1.mtx
-#run_benchmark "shipsec1"
+export SPARSE_FILE_NAME0=../data/data/shipsec1/shipsec1.mtx
+run_benchmark "shipsec1"
 
+export SPARSE_FILE_NAME0=../data/data/com-LiveJournal/com-LiveJournal_Communities_top5000.mtx
+run_benchmark "com-LiveJournal_Communities_top5000"
 
-# com-LiveJournal
-#export SPARSE_FILE_NAME0=../data/data/com-LiveJournal/com-LiveJournal.mtx
-#run_benchmark "com-LiveJournal"
-
-#export SPARSE_FILE_NAME0=../data/data/com-LiveJournal/com-LiveJournal_Communities_all.mtx
-#run_benchmark "com-LiveJournal_Communities_all"
-
-#export SPARSE_FILE_NAME0=../data/data/com-LiveJournal/com-LiveJournal_Communities_top5000.mtx
-#run_benchmark "com-LiveJournal_Communities_top5000"
-
-#export SPARSE_FILE_NAME0=../data/data/com-LiveJournal/com-LiveJournal_nodeid.mtx
-#run_benchmark "com-LiveJournal_nodeid"
-
-
-# com-Orkut
-#export SPARSE_FILE_NAME0=../data/data/com-Orkut/com-Orkut.mtx
-#run_benchmark "com-Orkut"
-
-#export SPARSE_FILE_NAME0=../data/data/com-Orkut/com-Orkut_Communities_all.mtx
-#run_benchmark "com-Orkut_Communities_all"
-
-#export SPARSE_FILE_NAME0=../data/data/com-Orkut/com-Orkut_Communities_top5000.mtx
-#run_benchmark "com-Orkut_Communities_top5000"
-
-#export SPARSE_FILE_NAME0=../data/data/com-Orkut/com-Orkut_nodeid.mtx
-#run_benchmark "com-Orkut_nodeid"
 
