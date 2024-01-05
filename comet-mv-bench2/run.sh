@@ -30,11 +30,11 @@ export LLVM_PATH="/home/pflynn5/COMET/llvm/build/bin"
 ##
 function run_benchmark() {
     # CSR
-    printf "" > csv/CSR/CSR_$1.csv
-    echo "Running $1 for CSR"
-    $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm csr_mv.mlir &> build/csr_mv.mlir
-    $LLVM_PATH/mlir-cpu-runner build/csr_mv.mlir -O3 -e main -entry-point-result=void \
-        -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/CSR/CSR_$1.csv
+    #printf "" > csv/CSR/CSR_$1.csv
+    #echo "Running $1 for CSR"
+    #$COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm csr_mv.mlir &> build/csr_mv.mlir
+    #$LLVM_PATH/mlir-cpu-runner build/csr_mv.mlir -O3 -e main -entry-point-result=void \
+    #    -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/CSR/CSR_$1.csv
     
     # COO
     #printf "" > csv/COO/COO_$1.csv
@@ -52,37 +52,37 @@ function run_benchmark() {
     
     # BCSR
     # Block sizes 2, 4, 8, 16, 32, default
-    #export BLOCK_ROWS=1
-    #export BLOCK_COLS=1
-    #echo "Running $1 for BCSR 1x1"
-    #printf "" > csv/BCSR/BCSR_$1_1x1.csv
-    #$COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm bcsr_mv.mlir &> build/bcsr_mv.mlir
-    #$LLVM_PATH/mlir-cpu-runner build/bcsr_mv.mlir -O3 -e main -entry-point-result=void \
-    #    -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_1x1.csv
+    export BLOCK_ROWS=1
+    export BLOCK_COLS=1
+    echo "Running $1 for BCSR 1x1"
+    printf "" > csv/BCSR/BCSR_$1_1x1.csv
+    $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm bcsr_mv.mlir &> build/bcsr_mv.mlir
+    $LLVM_PATH/mlir-cpu-runner build/bcsr_mv.mlir -O3 -e main -entry-point-result=void \
+        -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_1x1.csv
     
-    #export BLOCK_ROWS=2
-    #export BLOCK_COLS=2
-    #echo "Running $1 for BCSR 2x2"
-    #printf "" > csv/BCSR/BCSR_$1_2x2.csv
-    #$COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm bcsr_mv.mlir &> build/bcsr_mv.mlir
-    #$LLVM_PATH/mlir-cpu-runner build/bcsr_mv.mlir -O3 -e main -entry-point-result=void \
-    #    -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_2x2.csv
+    export BLOCK_ROWS=2
+    export BLOCK_COLS=2
+    echo "Running $1 for BCSR 2x2"
+    printf "" > csv/BCSR/BCSR_$1_2x2.csv
+    $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm bcsr_mv.mlir &> build/bcsr_mv.mlir
+    $LLVM_PATH/mlir-cpu-runner build/bcsr_mv.mlir -O3 -e main -entry-point-result=void \
+        -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_2x2.csv
     
-    #export BLOCK_ROWS=4
-    #export BLOCK_COLS=4
-    #echo "Running $1 for BCSR 4x4"
-    #printf "" > csv/BCSR/BCSR_$1_4x4.csv
-    #$COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm bcsr_mv.mlir &> build/bcsr_mv.mlir
-    #$LLVM_PATH/mlir-cpu-runner build/bcsr_mv.mlir -O3 -e main -entry-point-result=void \
-    #    -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_4x4.csv
+    export BLOCK_ROWS=4
+    export BLOCK_COLS=4
+    echo "Running $1 for BCSR 4x4"
+    printf "" > csv/BCSR/BCSR_$1_4x4.csv
+    $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm bcsr_mv.mlir &> build/bcsr_mv.mlir
+    $LLVM_PATH/mlir-cpu-runner build/bcsr_mv.mlir -O3 -e main -entry-point-result=void \
+        -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_4x4.csv
     
-    #export BLOCK_ROWS=16
-    #export BLOCK_COLS=16
-    #echo "Running $1 for BCSR 16x16"
-    #printf "" > csv/BCSR/BCSR_$1_16x16.csv
-    #$COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm bcsr_mv.mlir &> build/bcsr_mv.mlir
-    #$LLVM_PATH/mlir-cpu-runner build/bcsr_mv.mlir -O3 -e main -entry-point-result=void \
-    #    -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_16x16.csv
+    export BLOCK_ROWS=16
+    export BLOCK_COLS=16
+    echo "Running $1 for BCSR 16x16"
+    printf "" > csv/BCSR/BCSR_$1_16x16.csv
+    $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm bcsr_mv.mlir &> build/bcsr_mv.mlir
+    $LLVM_PATH/mlir-cpu-runner build/bcsr_mv.mlir -O3 -e main -entry-point-result=void \
+        -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_16x16.csv
 }
 
 export SPARSE_FILE_NAME0=../data/data/bcsstk17/bcsstk17.mtx
