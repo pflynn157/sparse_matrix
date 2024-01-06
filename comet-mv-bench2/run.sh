@@ -52,30 +52,30 @@ function run_benchmark() {
     
     # BCSR
     # Block sizes 2, 4, 8, 16, 32, default
-    export BLOCK_ROWS=1
-    export BLOCK_COLS=1
-    echo "Running $1 for BCSR 1x1"
-    printf "" > csv/BCSR/BCSR_$1_1x1.csv
-    $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm bcsr_mv.mlir &> build/bcsr_mv.mlir
-    $LLVM_PATH/mlir-cpu-runner build/bcsr_mv.mlir -O3 -e main -entry-point-result=void \
-        -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_1x1.csv
-    
-    export BLOCK_ROWS=2
-    export BLOCK_COLS=2
-    echo "Running $1 for BCSR 2x2"
-    printf "" > csv/BCSR/BCSR_$1_2x2.csv
-    $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm bcsr_mv.mlir &> build/bcsr_mv.mlir
-    $LLVM_PATH/mlir-cpu-runner build/bcsr_mv.mlir -O3 -e main -entry-point-result=void \
-        -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_2x2.csv
-    
-    export BLOCK_ROWS=4
-    export BLOCK_COLS=4
-    echo "Running $1 for BCSR 4x4"
-    printf "" > csv/BCSR/BCSR_$1_4x4.csv
-    $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm bcsr_mv.mlir &> build/bcsr_mv.mlir
-    $LLVM_PATH/mlir-cpu-runner build/bcsr_mv.mlir -O3 -e main -entry-point-result=void \
-        -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_4x4.csv
-    
+    #export BLOCK_ROWS=1
+    #export BLOCK_COLS=1
+    #echo "Running $1 for BCSR 1x1"
+    #printf "" > csv/BCSR/BCSR_$1_1x1.csv
+    #$COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm bcsr_mv.mlir &> build/bcsr_mv.mlir
+    #$LLVM_PATH/mlir-cpu-runner build/bcsr_mv.mlir -O3 -e main -entry-point-result=void \
+    #    -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_1x1.csv
+    #
+    #export BLOCK_ROWS=2
+    #export BLOCK_COLS=2
+    #echo "Running $1 for BCSR 2x2"
+    #printf "" > csv/BCSR/BCSR_$1_2x2.csv
+    #$COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm bcsr_mv.mlir &> build/bcsr_mv.mlir
+    #$LLVM_PATH/mlir-cpu-runner build/bcsr_mv.mlir -O3 -e main -entry-point-result=void \
+    #    -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_2x2.csv
+    # 
+    #export BLOCK_ROWS=4
+    #export BLOCK_COLS=4
+    #echo "Running $1 for BCSR 4x4"
+    #printf "" > csv/BCSR/BCSR_$1_4x4.csv
+    #$COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm bcsr_mv.mlir &> build/bcsr_mv.mlir
+    #$LLVM_PATH/mlir-cpu-runner build/bcsr_mv.mlir -O3 -e main -entry-point-result=void \
+    #    -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_4x4.csv
+   # 
     export BLOCK_ROWS=16
     export BLOCK_COLS=16
     echo "Running $1 for BCSR 16x16"
@@ -113,12 +113,12 @@ function run_benchmark() {
 #run_benchmark "scircuit"
 
 # TODO: Needed for 16x16
-#export SPARSE_FILE_NAME0=../data/data/scircuit/scircuit_b.mtx
-#run_benchmark "scircuit_b"
+export SPARSE_FILE_NAME0=../data/data/scircuit/scircuit_b.mtx
+run_benchmark "scircuit_b"
 
-export SPARSE_FILE_NAME0=../data/data/com-LiveJournal/com-LiveJournal_Communities_top5000.mtx
-run_benchmark "com-LiveJournal_Communities_top5000"
+#export SPARSE_FILE_NAME0=../data/data/com-LiveJournal/com-LiveJournal_Communities_top5000.mtx
+#run_benchmark "com-LiveJournal_Communities_top5000"
 
-export SPARSE_FILE_NAME0=../data/data/com-LiveJournal/com-LiveJournal_nodeid.mtx
-run_benchmark "com-LiveJournal_nodeid"
+#export SPARSE_FILE_NAME0=../data/data/com-LiveJournal/com-LiveJournal_nodeid.mtx
+#run_benchmark "com-LiveJournal_nodeid"
 
