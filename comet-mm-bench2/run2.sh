@@ -28,18 +28,18 @@ export LLVM_PATH="/home/pflynn5/COMET/llvm/build/bin"
 ##
 function run_benchmark() {
     # CSR
-    printf "" > csv/CSR/CSR_$1.csv
-    echo "Running $1 for CSR"
-    $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm $1/csr_$1.mlir &> build/csr_$1.mlir
-    $LLVM_PATH/mlir-cpu-runner build/csr_$1.mlir -O3 -e main -entry-point-result=void \
-        -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/CSR/CSR_$1.csv 
+    #printf "" > csv/CSR/CSR_$1.csv
+    #echo "Running $1 for CSR"
+    #$COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm $1/csr_$1.mlir &> build/csr_$1.mlir
+    #$LLVM_PATH/mlir-cpu-runner build/csr_$1.mlir -O3 -e main -entry-point-result=void \
+    #    -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/CSR/CSR_$1.csv 
     
     # COO
-    printf "" > csv/COO/COO_$1.csv
-    echo "Running $1 for COO"
-    $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm $1/coo_$1.mlir &> build/coo_$1.mlir
-    $LLVM_PATH/mlir-cpu-runner build/coo_$1.mlir -O3 -e main -entry-point-result=void \
-        -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/COO/COO_$1.csv
+    #printf "" > csv/COO/COO_$1.csv
+    #echo "Running $1 for COO"
+    #$COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm $1/coo_$1.mlir &> build/coo_$1.mlir
+    #$LLVM_PATH/mlir-cpu-runner build/coo_$1.mlir -O3 -e main -entry-point-result=void \
+    #    -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/COO/COO_$1.csv
     
     # ELL
     printf "" > csv/ELL/ELL_$1.csv
@@ -86,17 +86,17 @@ function run_benchmark() {
         -shared-libs=$COMET_PATH/lib/libcomet_runner_utils.so | grep -oP '\d+\.\d+' >> csv/BCSR/BCSR_$1_16x16.csv
 }
 
-export SPARSE_FILE_NAME0=../data/data/rma10/rma10.mtx
-run_benchmark "rma10"
+#export SPARSE_FILE_NAME0=../data/data/rma10/rma10.mtx
+#run_benchmark "rma10"
 
-export SPARSE_FILE_NAME0=../data/data/scircuit/scircuit.mtx
-run_benchmark "scircuit"
+#export SPARSE_FILE_NAME0=../data/data/scircuit/scircuit.mtx
+#run_benchmark "scircuit"
 
 # TODO: ELL/BCSR needed
-#export SPARSE_FILE_NAME0=../data/data/shipsec1/shipsec1.mtx
-#run_benchmark "shipsec1"
+export SPARSE_FILE_NAME0=../data/data/shipsec1/shipsec1.mtx
+run_benchmark "shipsec1"
 
-export SPARSE_FILE_NAME0=../data/data/com-LiveJournal/com-LiveJournal_Communities_top5000.mtx
-run_benchmark "com-LiveJournal_Communities_top5000"
+#export SPARSE_FILE_NAME0=../data/data/com-LiveJournal/com-LiveJournal_Communities_top5000.mtx
+#run_benchmark "com-LiveJournal_Communities_top5000"
 
 
