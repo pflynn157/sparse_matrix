@@ -96,8 +96,8 @@ function run_benchmark() {
 #export SPARSE_FILE_NAME0=../data/data/consph/consph.mtx
 #run_benchmark "consph"
 
-export SPARSE_FILE_NAME0=../data/data/cop20k_A/cop20k_A.mtx
-run_benchmark "cop20k_A"
+#export SPARSE_FILE_NAME0=../data/data/cop20k_A/cop20k_A.mtx
+#run_benchmark "cop20k_A"
 
 export SPARSE_FILE_NAME0=../data/data/pdb1HYS/pdb1HYS.mtx
 run_benchmark "pdb1HYS"
