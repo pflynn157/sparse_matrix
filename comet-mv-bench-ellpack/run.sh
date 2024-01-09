@@ -32,24 +32,24 @@ function run_benchmark() {
     $LLVM_PATH/mlir-translate --mlir-to-llvmir build/csr_mv.mlir &> build/csr.ll
     
     # Test 1
-    printf "" > csv/CSR_native_O2.csv
+    printf "" > csv/CSR_$1_native_O2.csv
     $LLVM_PATH/clang build/csr.ll -o build/csr -L$COMET_PATH/lib -lcomet_runner_utils -march=native -O2
-    build/csr | grep -oP '\d+\.\d+' >> csv/CSR_native_O2.csv
+    build/csr | grep -oP '\d+\.\d+' >> csv/CSR_$1_native_O2.csv
     
     # Test 2
-    printf "" > csv/CSR_native_O3.csv
+    printf "" > csv/CSR_$1_native_O3.csv
     $LLVM_PATH/clang build/csr.ll -o build/csr -L$COMET_PATH/lib -lcomet_runner_utils -march=native -O3
-    build/csr | grep -oP '\d+\.\d+' >> csv/CSR_native_O3.csv
+    build/csr | grep -oP '\d+\.\d+' >> csv/CSR_$1_native_O3.csv
     
     # Test 3
-    printf "" > csv/CSR_knl_O2.csv
+    printf "" > csv/CSR_$1_knl_O2.csv
     $LLVM_PATH/clang build/csr.ll -o build/csr -L$COMET_PATH/lib -lcomet_runner_utils -march=knl -O2
-    build/csr | grep -oP '\d+\.\d+' >> csv/CSR_knl_O2.csv
+    build/csr | grep -oP '\d+\.\d+' >> csv/CSR_$1_knl_O2.csv
     
     # Test 4
-    printf "" > csv/CSR_knl_O3.csv
+    printf "" > csv/CSR_$1_knl_O3.csv
     $LLVM_PATH/clang build/csr.ll -o build/csr -L$COMET_PATH/lib -lcomet_runner_utils -march=knl -O3
-    build/csr | grep -oP '\d+\.\d+' >> csv/CSR_knl_O3.csv
+    build/csr | grep -oP '\d+\.\d+' >> csv/CSR_$1_knl_O3.csv
     
     ###############################
     ## ELL
@@ -58,24 +58,24 @@ function run_benchmark() {
     $LLVM_PATH/mlir-translate --mlir-to-llvmir build/ell_mv.mlir &> build/ell.ll
     
     # Test 1
-    printf "" > csv/ELL_native_O2.csv
+    printf "" > csv/ELL_$1_native_O2.csv
     $LLVM_PATH/clang build/ell.ll -o build/ell -L$COMET_PATH/lib -lcomet_runner_utils -march=native -O2
-    build/ell | grep -oP '\d+\.\d+' >> csv/ELL_native_O2.csv
+    build/ell | grep -oP '\d+\.\d+' >> csv/ELL_$1_native_O2.csv
     
     # Test 2
-    printf "" > csv/ELL_native_O3.csv
+    printf "" > csv/ELL_$1_native_O3.csv
     $LLVM_PATH/clang build/ell.ll -o build/ell -L$COMET_PATH/lib -lcomet_runner_utils -march=native -O3
-    build/ell | grep -oP '\d+\.\d+' >> csv/ELL_native_O3.csv
+    build/ell | grep -oP '\d+\.\d+' >> csv/ELL_$1_native_O3.csv
     
     # Test 3
-    printf "" > csv/ELL_knl_O2.csv
+    printf "" > csv/ELL_$1_knl_O2.csv
     $LLVM_PATH/clang build/ell.ll -o build/ell -L$COMET_PATH/lib -lcomet_runner_utils -march=knl -O2
-    build/ell | grep -oP '\d+\.\d+' >> csv/ELL_knl_O2.csv
+    build/ell | grep -oP '\d+\.\d+' >> csv/ELL_$1_knl_O2.csv
     
     # Test 4
-    printf "" > csv/ELL_knl_O3.csv
+    printf "" > csv/ELL_$1_knl_O3.csv
     $LLVM_PATH/clang build/ell.ll -o build/ell -L$COMET_PATH/lib -lcomet_runner_utils -march=knl -O3
-    build/ell | grep -oP '\d+\.\d+' >> csv/ELL_knl_O3.csv
+    build/ell | grep -oP '\d+\.\d+' >> csv/ELL_$1_knl_O3.csv
 }
 
 export SPARSE_FILE_NAME0=../data/data/bcsstk17/bcsstk17.mtx
