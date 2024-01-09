@@ -25,7 +25,35 @@ export LLVM_PATH="/home/pflynn5/COMET/llvm/build/bin"
 ## $1 = the name for our file
 ##
 function run_benchmark() {
-    # ELL
+    ###############################
+    ## CSR
+    ###############################
+    $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm csr_mv.mlir &> build/csr_mv.mlir
+    $LLVM_PATH/mlir-translate --mlir-to-llvmir build/csr_mv.mlir &> build/csr.ll
+    
+    # Test 1
+    printf "" > csv/CSR_native_O2.csv
+    $LLVM_PATH/clang build/csr.ll -o build/csr -L$COMET_PATH/lib -lcomet_runner_utils -march=native -O2
+    build/csr | grep -oP '\d+\.\d+' >> csv/CSR_native_O2.csv
+    
+    # Test 2
+    printf "" > csv/CSR_native_O3.csv
+    $LLVM_PATH/clang build/csr.ll -o build/csr -L$COMET_PATH/lib -lcomet_runner_utils -march=native -O3
+    build/csr | grep -oP '\d+\.\d+' >> csv/CSR_native_O3.csv
+    
+    # Test 3
+    printf "" > csv/CSR_knl_O2.csv
+    $LLVM_PATH/clang build/csr.ll -o build/csr -L$COMET_PATH/lib -lcomet_runner_utils -march=knl -O2
+    build/csr | grep -oP '\d+\.\d+' >> csv/CSR_knl_O2.csv
+    
+    # Test 4
+    printf "" > csv/CSR_knl_O3.csv
+    $LLVM_PATH/clang build/csr.ll -o build/csr -L$COMET_PATH/lib -lcomet_runner_utils -march=knl -O3
+    build/csr | grep -oP '\d+\.\d+' >> csv/CSR_knl_O3.csv
+    
+    ###############################
+    ## ELL
+    ###############################
     $COMET_PATH/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm ell_mv.mlir &> build/ell_mv.mlir
     $LLVM_PATH/mlir-translate --mlir-to-llvmir build/ell_mv.mlir &> build/ell.ll
     
