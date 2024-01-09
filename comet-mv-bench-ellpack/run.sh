@@ -10,13 +10,13 @@ then
     mkdir csv
 fi
 
-export LD_LIBRARY_PATH="/home/patrick/Work/PNNL/COMET/build/lib:/home/patrick/Work/PNNL/COMET/install/lib"
-export COMET_PATH="/home/patrick/Work/PNNL/COMET/build"
-export LLVM_PATH="/home/patrick/Work/PNNL/COMET/llvm/build/bin"
+#export LD_LIBRARY_PATH="/home/patrick/Work/PNNL/COMET/build/lib:/home/patrick/Work/PNNL/COMET/install/lib"
+#export COMET_PATH="/home/patrick/Work/PNNL/COMET/build"
+#export LLVM_PATH="/home/patrick/Work/PNNL/COMET/llvm/build/bin"
 
-#export LD_LIBRARY_PATH="/home/pflynn5/COMET/build/lib:/home/pflynn5/COMET/install/lib"
-#export COMET_PATH="/home/pflynn5/COMET/build"
-#export LLVM_PATH="/home/pflynn5/COMET/llvm/build/bin"
+export LD_LIBRARY_PATH="/home/pflynn5/COMET/build/lib:/home/pflynn5/COMET/install/lib"
+export COMET_PATH="/home/pflynn5/COMET/build"
+export LLVM_PATH="/home/pflynn5/COMET/llvm/build/bin"
 
 
 ##
