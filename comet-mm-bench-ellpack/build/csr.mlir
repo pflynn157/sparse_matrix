@@ -2,7 +2,7 @@ module attributes {llvm.data_layout = ""} {
   llvm.func @malloc(i64) -> !llvm.ptr<i8>
   llvm.func @main() {
     %0 = llvm.mlir.constant(32 : index) : i64
-    %1 = llvm.mlir.constant(10974 : index) : i64
+    %1 = llvm.mlir.constant(62451 : index) : i64
     %2 = llvm.mlir.constant(0 : index) : i64
     %3 = llvm.mlir.constant(1 : index) : i64
     %4 = llvm.mlir.constant(13 : index) : i64
@@ -20,7 +20,7 @@ module attributes {llvm.data_layout = ""} {
     %16 = llvm.mlir.constant(10 : index) : i64
     %17 = llvm.mlir.constant(0.000000e+00 : f64) : f64
     %18 = llvm.mlir.constant(1.700000e+00 : f64) : f64
-    %19 = llvm.mlir.constant(10974 : index) : i64
+    %19 = llvm.mlir.constant(62451 : index) : i64
     %20 = llvm.mlir.constant(1 : index) : i64
     %21 = llvm.mlir.constant(0 : index) : i64
     %22 = llvm.mlir.null : !llvm.ptr<i64>

@@ -263,7 +263,7 @@ define void @main() {
   store { ptr, ptr, i64, [1 x i64], [1 x i64] } %173, ptr %181, align 8
   %182 = insertvalue { i64, ptr } { i64 1, ptr undef }, ptr %181, 1
   call void @read_input_2D_f64(i32 0, i64 0, i64 -1, i64 1, i64 -1, i64 1, ptr %45, i64 1, ptr %62, i64 1, ptr %79, i64 1, ptr %96, i64 1, ptr %113, i64 1, ptr %130, i64 1, ptr %147, i64 1, ptr %164, i64 1, ptr %181, i32 1)
-  %183 = mul i64 %29, 10974
+  %183 = mul i64 %29, 62451
   %184 = getelementptr double, ptr null, i64 %183
   %185 = ptrtoint ptr %184 to i64
   %186 = add i64 %185, 32
@@ -273,7 +273,7 @@ define void @main() {
   %190 = urem i64 %189, 32
   %191 = sub i64 %189, %190
   %192 = inttoptr i64 %191 to ptr
-  %193 = mul i64 %27, 10974
+  %193 = mul i64 %27, 62451
   %194 = getelementptr double, ptr null, i64 %193
   %195 = ptrtoint ptr %194 to i64
   %196 = add i64 %195, 32
@@ -292,11 +292,11 @@ define void @main() {
 
 206:                                              ; preds = %209, %203
   %207 = phi i64 [ %213, %209 ], [ 0, %203 ]
-  %208 = icmp slt i64 %207, 10974
+  %208 = icmp slt i64 %207, 62451
   br i1 %208, label %209, label %214
 
 209:                                              ; preds = %206
-  %210 = mul i64 %204, 10974
+  %210 = mul i64 %204, 62451
   %211 = add i64 %210, %207
   %212 = getelementptr double, ptr %192, i64 %211
   store double 1.700000e+00, ptr %212, align 8
@@ -314,11 +314,11 @@ define void @main() {
 
 219:                                              ; preds = %222, %216
   %220 = phi i64 [ %226, %222 ], [ 0, %216 ]
-  %221 = icmp slt i64 %220, 10974
+  %221 = icmp slt i64 %220, 62451
   br i1 %221, label %222, label %227
 
 222:                                              ; preds = %219
-  %223 = mul i64 %217, 10974
+  %223 = mul i64 %217, 62451
   %224 = add i64 %223, %220
   %225 = getelementptr double, ptr %202, i64 %224
   store double 0.000000e+00, ptr %225, align 8
@@ -364,23 +364,23 @@ define void @main() {
 
 250:                                              ; preds = %253, %247
   %251 = phi i64 [ %269, %253 ], [ 0, %247 ]
-  %252 = icmp slt i64 %251, 10974
+  %252 = icmp slt i64 %251, 62451
   br i1 %252, label %253, label %270
 
 253:                                              ; preds = %250
   %254 = getelementptr double, ptr %168, i64 %245
   %255 = load double, ptr %254, align 8
-  %256 = mul i64 %249, 10974
+  %256 = mul i64 %249, 62451
   %257 = add i64 %256, %251
   %258 = getelementptr double, ptr %192, i64 %257
   %259 = load double, ptr %258, align 8
-  %260 = mul i64 %236, 10974
+  %260 = mul i64 %236, 62451
   %261 = add i64 %260, %251
   %262 = getelementptr double, ptr %202, i64 %261
   %263 = load double, ptr %262, align 8
   %264 = fmul double %255, %259
   %265 = fadd double %263, %264
-  %266 = mul i64 %236, 10974
+  %266 = mul i64 %236, 62451
   %267 = add i64 %266, %251
   %268 = getelementptr double, ptr %202, i64 %267
   store double %265, ptr %268, align 8
