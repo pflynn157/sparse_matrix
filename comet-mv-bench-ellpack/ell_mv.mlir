@@ -87,16 +87,16 @@ module {
         scf.for %arg0 = %c0 to %12 step %c1 {
           %14 = memref.load %alloc_13[%c0] : memref<?xindex>
           scf.for %arg1 = %c0 to %14 step %c1 {
-            %15 = memref.load %alloc_1[%c0] : memref<?xindex>
-            %16 = arith.muli %arg1, %15 : index
-            %17 = arith.addi %16, %arg0 : index
+            %15 = memref.load %alloc_13[%c0] : memref<?xindex>
+            %16 = arith.muli %arg0, %15 : index
+            %17 = arith.addi %16, %arg1 : index
             %18 = memref.load %alloc_11[%17] : memref<?xindex>
             %19 = memref.load %alloc_17[%17] : memref<?xf64>
             %20 = memref.load %alloc_19[%18] : memref<?xf64>
-            %21 = memref.load %alloc_20[%arg0] : memref<?xf64>
+            %21 = memref.load %alloc_20[%arg1] : memref<?xf64>
             %22 = arith.mulf %19, %20 : f64
             %23 = arith.addf %21, %22 : f64
-            memref.store %23, %alloc_20[%arg0] : memref<?xf64>
+            memref.store %23, %alloc_20[%arg1] : memref<?xf64>
           }
         }
         %13 = func.call @getTime() : () -> f64
