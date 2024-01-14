@@ -362,20 +362,20 @@ module attributes {llvm.data_layout = ""} {
     %277 = llvm.icmp "slt" %276, %275 : i64
     llvm.cond_br %277, ^bb37, ^bb38
   ^bb37:  // pred: ^bb36
-    %278 = llvm.load %61 : !llvm.ptr<i64>
-    %279 = llvm.mul %276, %278  : i64
-    %280 = llvm.add %279, %273  : i64
+    %278 = llvm.load %181 : !llvm.ptr<i64>
+    %279 = llvm.mul %273, %278  : i64
+    %280 = llvm.add %279, %276  : i64
     %281 = llvm.getelementptr %161[%280] : (!llvm.ptr<i64>, i64) -> !llvm.ptr<i64>
     %282 = llvm.load %281 : !llvm.ptr<i64>
     %283 = llvm.getelementptr %221[%280] : (!llvm.ptr<f64>, i64) -> !llvm.ptr<f64>
     %284 = llvm.load %283 : !llvm.ptr<f64>
     %285 = llvm.getelementptr %248[%282] : (!llvm.ptr<f64>, i64) -> !llvm.ptr<f64>
     %286 = llvm.load %285 : !llvm.ptr<f64>
-    %287 = llvm.getelementptr %260[%273] : (!llvm.ptr<f64>, i64) -> !llvm.ptr<f64>
+    %287 = llvm.getelementptr %260[%276] : (!llvm.ptr<f64>, i64) -> !llvm.ptr<f64>
     %288 = llvm.load %287 : !llvm.ptr<f64>
     %289 = llvm.fmul %284, %286  : f64
     %290 = llvm.fadd %288, %289  : f64
-    %291 = llvm.getelementptr %260[%273] : (!llvm.ptr<f64>, i64) -> !llvm.ptr<f64>
+    %291 = llvm.getelementptr %260[%276] : (!llvm.ptr<f64>, i64) -> !llvm.ptr<f64>
     llvm.store %290, %291 : !llvm.ptr<f64>
     %292 = llvm.add %276, %18  : i64
     llvm.br ^bb36(%292 : i64)

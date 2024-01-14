@@ -330,20 +330,20 @@ define void @main() {
   br i1 %226, label %227, label %243
 
 227:                                              ; preds = %224
-  %228 = load i64, ptr %32, align 4
-  %229 = mul i64 %225, %228
-  %230 = add i64 %229, %220
+  %228 = load i64, ptr %134, align 4
+  %229 = mul i64 %220, %228
+  %230 = add i64 %229, %225
   %231 = getelementptr i64, ptr %117, i64 %230
   %232 = load i64, ptr %231, align 4
   %233 = getelementptr double, ptr %168, i64 %230
   %234 = load double, ptr %233, align 8
   %235 = getelementptr double, ptr %191, i64 %232
   %236 = load double, ptr %235, align 8
-  %237 = getelementptr double, ptr %200, i64 %220
+  %237 = getelementptr double, ptr %200, i64 %225
   %238 = load double, ptr %237, align 8
   %239 = fmul double %234, %236
   %240 = fadd double %238, %239
-  %241 = getelementptr double, ptr %200, i64 %220
+  %241 = getelementptr double, ptr %200, i64 %225
   store double %240, ptr %241, align 8
   %242 = add i64 %225, 1
   br label %224
