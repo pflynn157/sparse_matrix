@@ -4,7 +4,7 @@
 # 3 columns * 1024 = 3072
 
 x = 512
-y = 512
+y = 32
 vals = x * y
 
 val = 0

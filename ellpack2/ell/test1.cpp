@@ -15,10 +15,12 @@ int main(int argc, char **argv) {
     std::vector<double> vector(rows, 1.7);
     std::vector<double> results(rows, 0.0);
     
-    for (uint64_t i = 0; i<rows; i++) {
-        for (uint64_t n1 = 0; n1<cols; n1++) {
+    for (uint64_t n1 = 0; n1<cols; n1++) {
+        for (uint64_t i = 0; i<rows; i++) {
             uint64_t n = n1 * rows + i;
             uint64_t j = columnIdxs[n];
+            
+            printf("(%ld, %ld) = %ld\n", n1, i, n);
             
             results[i] += values[n] * vector[j];
         }

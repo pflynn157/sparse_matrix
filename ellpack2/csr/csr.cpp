@@ -22,15 +22,20 @@ extern "C" void printElapsedTime(double stime, double etime)
 
 int main(int argc, char **argv) {
     uint64_t rows = 512;
-    uint64_t cols = 30;
+    std::vector<uint64_t> v_columnPtr = {
+        #include "colptr.txt"
+    };
     std::vector<uint64_t> v_columnIdxs = {
-        #include "cols.txt"
+        #include "colidx.txt"
     };
     std::vector<double> v_values = {
         #include "vals.txt"
     };
     std::vector<double> v_vector(rows, 1.7);
     std::vector<double> v_results(rows, 0.0);
+    
+    uint64_t *columnPtr = new uint64_t[v_columnPtr.size()];
+    for (size_t i = 0; i<v_columnPtr.size(); i++) columnPtr[i] = v_columnPtr[i];
     
     uint64_t *columnIdxs = new uint64_t[v_columnIdxs.size()];
     for (size_t i = 0; i<v_columnIdxs.size(); i++) columnIdxs[i] = v_columnIdxs[i];
@@ -46,12 +51,11 @@ int main(int argc, char **argv) {
     // Measure time
     double stime = getTime();
     for (uint64_t i = 0; i<rows; i++) {
-        for (uint64_t nn1 = 0; nn1<cols; nn1+=1) {
-            uint64_t n1 = nn1 * rows + i;
-            uint64_t j1 = columnIdxs[n1];
-            results[i] += values[n1] * vector[j1];
+        for (uint64_t p = columnPtr[i]; p<columnPtr[i+1]; p++) {
+            uint64_t j = columnIdxs[p];
+            results[i] += values[p] * vector[j];
         }
-    }
+    } 
     double etime = getTime();
     printElapsedTime(stime, etime);
     
