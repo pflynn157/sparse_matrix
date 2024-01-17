@@ -11,8 +11,8 @@
 #export LLVM_BASE="/home/patrick/Work/PNNL/COMET/llvm/build/bin"
 
 export LD_LIBRARY_PATH="/home/pflynn5/COMET/build/lib:/home/pflynn5/COMET/install/lib"
-export COMET_PATH="/home/pflynn5/COMET/build"
-export LLVM_PATH="/home/pflynn5/COMET/llvm/build/bin"
+export COMET_BASE="/home/pflynn5/COMET/build"
+export LLVM_BASE="/home/pflynn5/COMET/llvm/build/bin"
 
 export SPARSE_FILE_NAME0=square.mtx
 

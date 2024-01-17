@@ -117,7 +117,7 @@ module {
     //;call @comet_print_memref_f64(%cast_18) : (memref<*xf64>) -> () //Aval
     //; Print results
     %cast_21 = memref.cast %alloc_20 : memref<?xf64> to memref<*xf64>
-    call @comet_print_memref_f64(%cast_21) : (memref<*xf64>) -> ()
+    //;call @comet_print_memref_f64(%cast_21) : (memref<*xf64>) -> ()
     
     //; Call C kernels
     //; Original test kernel
@@ -143,7 +143,7 @@ module {
     //;call @comet_print_memref_i64(%cast_16) : (memref<*xindex>) -> ()
     //;call @comet_print_memref_f64(%cast_18) : (memref<*xf64>) -> ()
     //; Print results
-    call @comet_print_memref_f64(%cast_22) : (memref<*xf64>) -> ()
+    //;call @comet_print_memref_f64(%cast_22) : (memref<*xf64>) -> ()
     
     //; Original vectorization kernel
     %211 = call @getTime() : () -> f64
@@ -167,7 +167,7 @@ module {
     //;call @comet_print_memref_i64(%cast_16) : (memref<*xindex>) -> ()
     //;call @comet_print_memref_f64(%cast_18) : (memref<*xf64>) -> ()
     //; Print results
-    call @comet_print_memref_f64(%cast_23) : (memref<*xf64>) -> ()
+    //;call @comet_print_memref_f64(%cast_23) : (memref<*xf64>) -> ()
     
     return
   }
