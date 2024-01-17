@@ -20,13 +20,32 @@ void printElapsedTime(double stime, double etime)
 }
 
 int main(int argc, char **argv) {
+    #ifdef SQUARE
     uint64_t rows = 512;
     uint64_t cols = 32;
+    #else
+    #ifdef BCSSTK17
+    uint64_t rows = 10974;
+    uint64_t cols = 150;
+    #endif
+    #endif
+    
     uint64_t v_columnIdxs[] = {
-        #include "cols.txt"
+        #ifdef SQUARE
+        #include "square/cols.txt"
+        #else
+        #ifdef BCSSTK17
+        #include "bcsstk17/cols.txt"
+        #endif
+        #endif
     };
     double v_values[] = {
-        #include "vals.txt"
+        #ifdef SQUARE
+        #include "square/vals.txt"
+        #ifdef BCSSTK17
+        #include "bcsstk17/vals.txt"
+        #endif
+        #endif
     };
     
     size_t columnIdxs_size = sizeof(v_columnIdxs) / sizeof(uint64_t);
