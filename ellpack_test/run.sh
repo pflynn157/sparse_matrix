@@ -13,6 +13,12 @@ if [ ! -d ./csv ] ; then
     mkdir csv
 fi
 
+# Sorting- O2 Native
+mkdir -p csv/all/mv1
+mkdir -p csv/all/mv2r
+mkdir -p csv/all/mm1
+mkdir -p csv/all/mm2r
+
 function run() {
     INPUT_FILE=$1
     INPUT_NAME=$2
@@ -21,19 +27,19 @@ function run() {
     $LLVM_BASE/mlir-translate --mlir-to-llvmir /tmp/first.mlir &> /tmp/first.ll
 
     $LLVM_BASE/clang /tmp/first.ll -o ell -L$COMET_BASE/lib -lcomet_runner_utils -march=native -O2 -ftree-vectorize
-    printf "" > csv/ELL_"$INPUT_FILE"_"$INPUT_NAME"_native_O2.csv
+    printf "" > csv/"$INPUT_FILE"_"$INPUT_NAME"_native_O2.csv
     ./ell  | grep -oP '\d+\.\d+' >> csv/"$INPUT_FILE"_"$INPUT_NAME"_native_O2.csv
     
     $LLVM_BASE/clang /tmp/first.ll -o ell -L$COMET_BASE/lib -lcomet_runner_utils -march=native -O3 -ftree-vectorize
-    printf "" > csv/ELL_"$INPUT_FILE"_"$INPUT_NAME"_native_O3.csv
+    printf "" > csv/"$INPUT_FILE"_"$INPUT_NAME"_native_O3.csv
     ./ell  | grep -oP '\d+\.\d+' >> csv/"$INPUT_FILE"_"$INPUT_NAME"_native_O3.csv
     
     $LLVM_BASE/clang /tmp/first.ll -o ell -L$COMET_BASE/lib -lcomet_runner_utils -march=knl -O2 -ftree-vectorize
-    printf "" > csv/ELL_"$INPUT_FILE"_"$INPUT_NAME"_knl_O2.csv
+    printf "" > csv/"$INPUT_FILE"_"$INPUT_NAME"_knl_O2.csv
     ./ell  | grep -oP '\d+\.\d+' >> csv/"$INPUT_FILE"_"$INPUT_NAME"_knl_O2.csv
     
     $LLVM_BASE/clang /tmp/first.ll -o ell -L$COMET_BASE/lib -lcomet_runner_utils -march=knl -O3 -ftree-vectorize
-    printf "" > csv/ELL_"$INPUT_FILE"_"$INPUT_NAME"_knl_O3.csv
+    printf "" > csv/"$INPUT_FILE"_"$INPUT_NAME"_knl_O3.csv
     ./ell  | grep -oP '\d+\.\d+' >> csv/"$INPUT_FILE"_"$INPUT_NAME"_knl_O3.csv
 }
 
