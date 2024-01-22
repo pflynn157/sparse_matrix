@@ -80,25 +80,29 @@ module {
     %alloc_20 = memref.alloc(%9) {alignment = 32 : i64} : memref<?xf64>
     linalg.fill ins(%cst : f64) outs(%alloc_19 : memref<?xf64>)
     linalg.fill ins(%cst_0 : f64) outs(%alloc_20 : memref<?xf64>)
-    %11 = call @getTime() : () -> f64
-    %12 = memref.load %alloc_1[%c0] : memref<?xindex>
-    scf.for %arg0 = %c0 to %12 step %c1 {
-      %14 = memref.load %alloc_13[%c0] : memref<?xindex>
-      scf.for %arg1 = %c0 to %14 step %c1 {
-        %15 = memref.load %alloc_1[%c0] : memref<?xindex>
-        %16 = arith.muli %arg1, %15 : index
-        %17 = arith.addi %16, %arg0 : index
-        %18 = memref.load %alloc_11[%17] : memref<?xindex>
-        %19 = memref.load %alloc_17[%17] : memref<?xf64>
-        %20 = memref.load %alloc_19[%18] : memref<?xf64>
-        %21 = memref.load %alloc_20[%arg0] : memref<?xf64>
-        %22 = arith.mulf %19, %20 : f64
-        %23 = arith.addf %21, %22 : f64
-        memref.store %23, %alloc_20[%arg0] : memref<?xf64>
+    
+    scf.for %ii = %c0 to %c10 step %c1 {
+      %11 = func.call @getTime() : () -> f64
+      %12 = memref.load %alloc_1[%c0] : memref<?xindex>
+      scf.for %arg0 = %c0 to %12 step %c1 {
+        %14 = memref.load %alloc_13[%c0] : memref<?xindex>
+        scf.for %arg1 = %c0 to %14 step %c1 {
+          %15 = memref.load %alloc_1[%c0] : memref<?xindex>
+          %16 = arith.muli %arg1, %15 : index
+          %17 = arith.addi %16, %arg0 : index
+          %18 = memref.load %alloc_11[%17] : memref<?xindex>
+          %19 = memref.load %alloc_17[%17] : memref<?xf64>
+          %20 = memref.load %alloc_19[%18] : memref<?xf64>
+          %21 = memref.load %alloc_20[%arg0] : memref<?xf64>
+          %22 = arith.mulf %19, %20 : f64
+          %23 = arith.addf %21, %22 : f64
+          memref.store %23, %alloc_20[%arg0] : memref<?xf64>
+        }
       }
+      %13 = func.call @getTime() : () -> f64
+      func.call @printElapsedTime(%11, %13) : (f64, f64) -> ()
     }
-    %13 = call @getTime() : () -> f64
-    call @printElapsedTime(%11, %13) : (f64, f64) -> ()
+    
     return
   }
   func.func private @read_input_2D_f64(i32, index, index, index, index, memref<*xindex>, memref<*xindex>, memref<*xindex>, memref<*xindex>, memref<*xindex>, memref<*xindex>, memref<*xindex>, memref<*xindex>, memref<*xf64>, i32)

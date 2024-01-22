@@ -81,34 +81,37 @@ module {
     linalg.fill ins(%cst : f64) outs(%alloc_19 : memref<?x4xf64>)
     linalg.fill ins(%cst_0 : f64) outs(%alloc_20 : memref<?x4xf64>)
     
-    %111 = call @getTime() : () -> f64
-    
-    //; Cols
-    %11 = memref.load %alloc_13[%c0] : memref<?xindex>
-    scf.for %arg0 = %c0 to %11 step %c1 {
+    scf.for %ii = %c0 to %c10 step %c1 {
+      %111 = func.call @getTime() : () -> f64
       
-      //; Rows
-      %12 = memref.load %alloc_1[%c0] : memref<?xindex>
-      scf.for %arg1 = %c0 to %12 step %c1 {
-      
-        %13 = memref.load %alloc_1[%c0] : memref<?xindex>
-        %14 = arith.muli %arg0, %13 : index
-        %15 = arith.addi %14, %arg1 : index
-        %16 = memref.load %alloc_11[%15] : memref<?xindex>
+      //; Cols
+      %11 = memref.load %alloc_13[%c0] : memref<?xindex>
+      scf.for %arg0 = %c0 to %11 step %c1 {
         
-        scf.for %arg2 = %c0 to %c4 step %c1 {
-          %17 = memref.load %alloc_17[%15] : memref<?xf64>
-          %18 = memref.load %alloc_19[%16, %arg2] : memref<?x4xf64>
-          %19 = memref.load %alloc_20[%arg1, %arg2] : memref<?x4xf64>
-          %20 = arith.mulf %17, %18 : f64
-          %21 = arith.addf %19, %20 : f64
-          memref.store %21, %alloc_20[%arg1, %arg2] : memref<?x4xf64>
+        //; Rows
+        %12 = memref.load %alloc_1[%c0] : memref<?xindex>
+        scf.for %arg1 = %c0 to %12 step %c1 {
+        
+          %13 = memref.load %alloc_1[%c0] : memref<?xindex>
+          %14 = arith.muli %arg0, %13 : index
+          %15 = arith.addi %14, %arg1 : index
+          %16 = memref.load %alloc_11[%15] : memref<?xindex>
+          
+          scf.for %arg2 = %c0 to %c4 step %c1 {
+            %17 = memref.load %alloc_17[%15] : memref<?xf64>
+            %18 = memref.load %alloc_19[%16, %arg2] : memref<?x4xf64>
+            %19 = memref.load %alloc_20[%arg1, %arg2] : memref<?x4xf64>
+            %20 = arith.mulf %17, %18 : f64
+            %21 = arith.addf %19, %20 : f64
+            memref.store %21, %alloc_20[%arg1, %arg2] : memref<?x4xf64>
+          }
         }
       }
+      
+      %113 = func.call @getTime() : () -> f64
+      func.call @printElapsedTime(%111, %113) : (f64, f64) -> ()
     }
     
-    %113 = call @getTime() : () -> f64
-    call @printElapsedTime(%111, %113) : (f64, f64) -> ()
     return
   }
   func.func private @read_input_2D_f64(i32, index, index, index, index, memref<*xindex>, memref<*xindex>, memref<*xindex>, memref<*xindex>, memref<*xindex>, memref<*xindex>, memref<*xindex>, memref<*xindex>, memref<*xf64>, i32)
