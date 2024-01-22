@@ -21,19 +21,19 @@ function run() {
     $LLVM_BASE/mlir-translate --mlir-to-llvmir /tmp/first.mlir &> /tmp/first.ll
 
     $LLVM_BASE/clang /tmp/first.ll -o ell -L$COMET_BASE/lib -lcomet_runner_utils -march=native -O2 -ftree-vectorize
-    echo "" > csv/ELL_"$INPUT_FILE"_"$INPUT_NAME"_native_O2.csv
+    printf "" > csv/ELL_"$INPUT_FILE"_"$INPUT_NAME"_native_O2.csv
     ./ell  | grep -oP '\d+\.\d+' >> csv/ELL_"$INPUT_FILE"_"$INPUT_NAME"_native_O2.csv
     
     $LLVM_BASE/clang /tmp/first.ll -o ell -L$COMET_BASE/lib -lcomet_runner_utils -march=native -O3 -ftree-vectorize
-    echo "" > csv/ELL_"$INPUT_FILE"_"$INPUT_NAME"_native_O3.csv
+    printf "" > csv/ELL_"$INPUT_FILE"_"$INPUT_NAME"_native_O3.csv
     ./ell  | grep -oP '\d+\.\d+' >> csv/ELL_"$INPUT_FILE"_"$INPUT_NAME"_native_O3.csv
     
     $LLVM_BASE/clang /tmp/first.ll -o ell -L$COMET_BASE/lib -lcomet_runner_utils -march=knl -O2 -ftree-vectorize
-    echo "" > csv/ELL_"$INPUT_FILE"_"$INPUT_NAME"_knl_O2.csv
+    printf "" > csv/ELL_"$INPUT_FILE"_"$INPUT_NAME"_knl_O2.csv
     ./ell  | grep -oP '\d+\.\d+' >> csv/ELL_"$INPUT_FILE"_"$INPUT_NAME"_knl_O2.csv
     
     $LLVM_BASE/clang /tmp/first.ll -o ell -L$COMET_BASE/lib -lcomet_runner_utils -march=knl -O3 -ftree-vectorize
-    echo "" > csv/ELL_"$INPUT_FILE"_"$INPUT_NAME"_knl_O3.csv
+    printf "" > csv/ELL_"$INPUT_FILE"_"$INPUT_NAME"_knl_O3.csv
     ./ell  | grep -oP '\d+\.\d+' >> csv/ELL_"$INPUT_FILE"_"$INPUT_NAME"_knl_O3.csv
 }
 
