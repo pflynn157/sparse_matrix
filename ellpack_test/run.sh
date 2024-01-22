@@ -41,42 +41,49 @@ function run() {
 ## 512
 ##
 export SPARSE_FILE_NAME0=512/512x8.mtx
+run "csr" "512x8"
 run "mv1" "512x8"
 run "mv2r" "512x8"
 run "mm1" "512x8"
 run "mm2r" "512x8"
 
 export SPARSE_FILE_NAME0=512/512x16.mtx
+run "csr" "512x16"
 run "mv1" "512x16"
 run "mv2r" "512x16"
 run "mm1" "512x16"
 run "mm2r" "512x16"
 
 export SPARSE_FILE_NAME0=512/512x32.mtx
+run "csr" "512x32"
 run "mv1" "512x32"
 run "mv2r" "512x32"
 run "mm1" "512x32"
 run "mm2r" "512x32"
 
 export SPARSE_FILE_NAME0=512/512x64.mtx
+run "csr" "512x64"
 run "mv1" "512x64"
 run "mv2r" "512x64"
 run "mm1" "512x64"
 run "mm2r" "512x64"
 
 export SPARSE_FILE_NAME0=512/512x128.mtx
+run "csr" "512x128"
 run "mv1" "512x128"
 run "mv2r" "512x128"
 run "mm1" "512x128"
 run "mm2r" "512x128"
 
 export SPARSE_FILE_NAME0=512/512x256.mtx
+run "csr" "512x256"
 run "mv1" "512x256"
 run "mv2r" "512x256"
 run "mm1" "512x256"
 run "mm2r" "512x256"
 
 export SPARSE_FILE_NAME0=512/512x512.mtx
+run "csr" "512x512"
 run "mv1" "512x512"
 run "mv2r" "512x512"
 run "mm1" "512x512"
@@ -86,48 +93,56 @@ run "mm2r" "512x512"
 ## 1024
 ##
 export SPARSE_FILE_NAME0=1024/1024x8.mtx
+run "csr" "1024x8"
 run "mv1" "1024x8"
 run "mv2r" "1024x8"
 run "mm1" "1024x8"
 run "mm2r" "1024x8"
 
 export SPARSE_FILE_NAME0=1024/1024x16.mtx
+run "csr" "1024x16"
 run "mv1" "1024x16"
 run "mv2r" "1024x16"
 run "mm1" "1024x16"
 run "mm2r" "1024x16"
 
 export SPARSE_FILE_NAME0=1024/1024x32.mtx
+run "csr" "1024x32"
 run "mv1" "1024x32"
 run "mv2r" "1024x32"
 run "mm1" "1024x32"
 run "mm2r" "1024x32"
 
 export SPARSE_FILE_NAME0=1024/1024x64.mtx
+run "csr" "1024x64"
 run "mv1" "1024x64"
 run "mv2r" "1024x64"
 run "mm1" "1024x64"
 run "mm2r" "1024x64"
 
 export SPARSE_FILE_NAME0=1024/1024x128.mtx
+run "csr" "1024x128"
 run "mv1" "1024x128"
 run "mv2r" "1024x128"
 run "mm1" "1024x128"
 run "mm2r" "1024x128"
 
 export SPARSE_FILE_NAME0=1024/1024x256.mtx
+run "csr" "512x256"
 run "mv1" "512x256"
 run "mv2r" "512x256"
 run "mm1" "512x256"
 run "mm2r" "512x256"
 
 export SPARSE_FILE_NAME0=1024/1024x512.mtx
+run "csr" "1024x512"
 run "mv1" "1024x512"
 run "mv2r" "1024x512"
 run "mm1" "1024x512"
 run "mm2r" "1024x512"
 
 export SPARSE_FILE_NAME0=1024/1024x1024.mtx
+run "csr" "1024x1024"
 run "mv1" "1024x1024"
 run "mv2r" "1024x1024"
 run "mm1" "1024x1024"
