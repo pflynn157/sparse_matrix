@@ -4,10 +4,11 @@ import random
 # Generate 1024 x 1024 matrix
 # 3 columns * 1024 = 3072
 
-rows = 10
-cols = 10
+rows = 1024
+cols = 1024
+out_cols = 0
 
-vals = 3
+vals = int(cols/128)
 make_dense = False
 
 data = list()
@@ -15,6 +16,7 @@ data = list()
 # Makes a fully dense matrix
 if make_dense:
     vals = rows * cols
+    out_cols = cols
     for r in range(rows):
         for c in range(cols):
             v = float(random.uniform(0.1, 10.0))
@@ -25,6 +27,7 @@ if make_dense:
 # Make a sparse ellpack matrix with a defined number of columns
 else:
     ell_cols = vals
+    out_cols = ell_cols
     vals = rows * ell_cols
     for r in range(rows):
         local_cols = list()
@@ -38,7 +41,7 @@ else:
             line = str(r + 1) + " " + str(col) + " " + str(s)
             data.append(line)
 
-writer = open("square.mtx", "w")
+writer = open(str(rows) + "x" + str(out_cols) + ".mtx", "w")
 writer.write("%%MatrixMarket matrix coordinate real general\n")
 writer.write("%\n")
 writer.write("%\n")
