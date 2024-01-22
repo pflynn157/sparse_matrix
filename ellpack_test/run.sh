@@ -1,13 +1,13 @@
 #!/bin/bash
 #####################################3
 # Testing
-export LD_LIBRARY_PATH="/home/pflynn5/PNNL/COMET/install/lib:/home/pflynn5/PNNL/COMET/build/lib"
-export COMET_BASE="/home/pflynn5/PNNL/COMET/build"
-export LLVM_BASE="/home/pflynn5/PNNL/COMET/llvm/build/bin"
+#export LD_LIBRARY_PATH="/home/pflynn5/PNNL/COMET/install/lib:/home/pflynn5/PNNL/COMET/build/lib"
+#export COMET_BASE="/home/pflynn5/PNNL/COMET/build"
+#export LLVM_BASE="/home/pflynn5/PNNL/COMET/llvm/build/bin"
 
-#export LD_LIBRARY_PATH="/home/pflynn5/COMET/build/lib:/home/pflynn5/COMET/install/lib"
-#export COMET_BASE="/home/pflynn5/COMET/build"
-#export LLVM_BASE="/home/pflynn5/COMET/llvm/build/bin"
+export LD_LIBRARY_PATH="/home/pflynn5/COMET/build/lib:/home/pflynn5/COMET/install/lib"
+export COMET_BASE="/home/pflynn5/COMET/build"
+export LLVM_BASE="/home/pflynn5/COMET/llvm/build/bin"
 
 if [ ! -d ./csv ] ; then
     mkdir csv
