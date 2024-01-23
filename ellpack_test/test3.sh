@@ -41,8 +41,8 @@ function run() {
     $COMET_BASE/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm mlir2/$1.mlir &> /tmp/first.mlir
     $LLVM_BASE/mlir-translate --mlir-to-llvmir /tmp/first.mlir &> /tmp/first.ll
     
-    $LLVM_BASE/clang /tmp/first.ll -o exe -L$COMET_BASE/lib -lcomet_runner_utils -march=native -O2 -ftree-vectorize
-    ./exe  | grep -oP '\d+\.\d+' >> csv/$2/$1_$3_native_O2.csv
+    $LLVM_BASE/clang /tmp/first.ll -o exe -L$COMET_BASE/lib -lcomet_runner_utils -march=native -O3 -ftree-vectorize
+    ./exe  | grep -oP '\d+\.\d+' >> csv/$2/$1_$3_native_O3.csv
     
     $LLVM_BASE/clang /tmp/first.ll -o exe -L$COMET_BASE/lib -lcomet_runner_utils -march=knl -O3 -ftree-vectorize
     ./exe  | grep -oP '\d+\.\d+' >> csv/$2/$1_$3_knl_O3.csv
