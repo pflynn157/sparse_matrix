@@ -1,15 +1,22 @@
 #!/usr/bin/python3
 import random
+import sys
 
-# Generate 1024 x 1024 matrix
-# 3 columns * 1024 = 3072
+rows = int(sys.argv[1])
+cols = int(sys.argv[2])
+dense_args = int(sys.argv[3])
+if dense_args == cols:
+    make_dense = True
+else:
+    vals = dense_args
+    make_dense = False
 
-rows = 1024
-cols = 1024
+#rows = 1024
+#cols = 1024
+#make_dense = False
+
 out_cols = 0
-
-vals = int(cols/128)
-make_dense = False
+#vals = int(cols/128)
 
 data = list()
 
