@@ -71,7 +71,7 @@ do
     python3 ../gen.py 1024 1024 16
     mv 1024x16.mtx 1024x16_$i.mtx
     cd ..
-    export SPARSE_FILE_NAME0=1024/1024x16_$i.mtx
+    export SPARSE_FILE_NAME0=1024_gen/1024x16_$i.mtx
     run "csr_mv" "test2_mv" "1024x16"
     run "ell_mv" "test2_mv" "1024x16"
     run "csr_mm16" "test2_mm" "1024x16"
@@ -84,7 +84,7 @@ do
     python3 ../gen.py 1024 1024 32
     mv 1024x32.mtx 1024x32_$i.mtx
     cd ..
-    export SPARSE_FILE_NAME0=1024/1024x32_$i.mtx
+    export SPARSE_FILE_NAME0=1024_gen/1024x32_$i.mtx
     run "csr_mv" "test2_mv" "1024x32"
     run "ell_mv" "test2_mv" "1024x32"
     run "csr_mm32" "test2_mm" "1024x32"
@@ -97,7 +97,7 @@ do
     python3 ../gen.py 1024 1024 512
     mv 1024x512.mtx 1024x512_$i.mtx
     cd ..
-    export SPARSE_FILE_NAME0=1024/1024x512_$i.mtx
+    export SPARSE_FILE_NAME0=1024_gen/1024x512_$i.mtx
     run "csr_mv" "test2_mv" "1024x512"
     run "ell_mv" "test2_mv" "1024x512"
     run "csr_mm512" "test2_mm" "1024x512"
@@ -110,7 +110,7 @@ do
     python3 ../gen.py 1024 1024 1024
     mv 1024x1024.mtx 1024x1024_$i.mtx
     cd ..
-    export SPARSE_FILE_NAME0=1024/1024x1024_$i.mtx
+    export SPARSE_FILE_NAME0=1024_gen/1024x1024_$i.mtx
     run "csr_mv" "test2_mv" "1024x1024"
     run "ell_mv" "test2_mv" "1024x1024"
     run "csr_mm1024" "test2_mm" "1024x1024"
