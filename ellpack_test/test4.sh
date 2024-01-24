@@ -25,11 +25,6 @@ mkdir -p csv/cant
 mkdir -p csv/pdb1HYS
 mkdir -p csv/rma10
 
-csv/bcsstk17/*
-csv/cant/*
-csv/pdb1HYS/*
-csv/rma10/*
-
 # Input: $1 = file
 #        $2 = test_name
 #        $3 = name suffix
@@ -39,9 +34,9 @@ function run() {
     $COMET_BASE/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm mlir/$1.mlir &> /tmp/first.mlir
     $LLVM_BASE/mlir-translate --mlir-to-llvmir /tmp/first.mlir &> /tmp/first.ll
 
-    $LLVM_BASE/clang /tmp/first.ll -o exe -L$COMET_BASE/lib -lcomet_runner_utils -march=native -O2 -ftree-vectorize
-    printf "" > csv/$2/$1_$3_native_O2.csv
-    ./exe  | grep -oP '\d+\.\d+' >> csv/$2/$1_$3_native_O2.csv
+    $LLVM_BASE/clang /tmp/first.ll -o exe -L$COMET_BASE/lib -lcomet_runner_utils -march=knl -O3 -ftree-vectorize
+    printf "" > csv/$2/$1_$3_knl_O3.csv
+    ./exe  | grep -oP '\d+\.\d+' >> csv/$2/$1_$3_knl_O3.csv
     
     echo ""
     echo ""
