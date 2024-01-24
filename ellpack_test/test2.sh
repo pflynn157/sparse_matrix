@@ -34,6 +34,7 @@ if [ ! -d ./512_gen ] ; then
     mkdir 512_gen
 fi
 
+rm 1024_gen/*
 rm 512_gen/*
 
 # Input: $1 = file
@@ -46,7 +47,7 @@ function run() {
     $LLVM_BASE/mlir-translate --mlir-to-llvmir /tmp/first.mlir &> /tmp/first.ll
 
     $LLVM_BASE/clang /tmp/first.ll -o exe -L$COMET_BASE/lib -lcomet_runner_utils -march=native -O2 -ftree-vectorize
-    #printf "" > csv/$2/$1_$3_native_O2.csv
+    printf "" > csv/$2/$1_$3_native_O2.csv
     ./exe  | grep -oP '\d+\.\d+' >> csv/$2/$1_$3_native_O2.csv
     
     echo ""
