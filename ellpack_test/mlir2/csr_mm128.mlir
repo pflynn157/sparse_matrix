@@ -76,10 +76,10 @@ module {
     }
     %cast_18 = memref.cast %alloc_17 : memref<?xf64> to memref<*xf64>
     call @read_input_2D_f64(%c0_i32, %c0, %c-1, %c1, %c-1, %cast_2, %cast_4, %cast_6, %cast_8, %cast_10, %cast_12, %cast_14, %cast_16, %cast_18, %c1_i32) {filename = "SPARSE_FILE_NAME0"} : (i32, index, index, index, index, memref<*xindex>, memref<*xindex>, memref<*xindex>, memref<*xindex>, memref<*xindex>, memref<*xindex>, memref<*xindex>, memref<*xindex>, memref<*xf64>, i32) -> ()
-    %alloc_19 = memref.alloc(%10) {alignment = 32 : i64} : memref<?x32xf64>
-    %alloc_20 = memref.alloc(%9) {alignment = 32 : i64} : memref<?x32xf64>
-    linalg.fill ins(%cst : f64) outs(%alloc_19 : memref<?x32xf64>)
-    linalg.fill ins(%cst_0 : f64) outs(%alloc_20 : memref<?x32xf64>)
+    %alloc_19 = memref.alloc(%10) {alignment = 32 : i64} : memref<?x128xf64>
+    %alloc_20 = memref.alloc(%9) {alignment = 32 : i64} : memref<?x128xf64>
+    linalg.fill ins(%cst : f64) outs(%alloc_19 : memref<?x128xf64>)
+    linalg.fill ins(%cst_0 : f64) outs(%alloc_20 : memref<?x128xf64>)
     
     %c32 = arith.constant 128 : index
     
@@ -95,11 +95,11 @@ module {
           %17 = memref.load %alloc_11[%arg1] : memref<?xindex>
           scf.for %arg2 = %c0 to %c32 step %c1 {
             %18 = memref.load %alloc_17[%arg1] : memref<?xf64>
-            %19 = memref.load %alloc_19[%17, %arg2] : memref<?x32xf64>
-            %20 = memref.load %alloc_20[%arg0, %arg2] : memref<?x32xf64>
+            %19 = memref.load %alloc_19[%17, %arg2] : memref<?x128xf64>
+            %20 = memref.load %alloc_20[%arg0, %arg2] : memref<?x128xf64>
             %21 = arith.mulf %18, %19 : f64
             %22 = arith.addf %20, %21 : f64
-            memref.store %22, %alloc_20[%arg0, %arg2] : memref<?x32xf64>
+            memref.store %22, %alloc_20[%arg0, %arg2] : memref<?x128xf64>
           }
         }
       }
