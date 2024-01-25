@@ -81,7 +81,7 @@ module {
     linalg.fill ins(%cst : f64) outs(%alloc_19 : memref<?xf64>)
     linalg.fill ins(%cst_0 : f64) outs(%alloc_20 : memref<?xf64>)
     
-    scf.for %ii = %c0 to %c10 step %c1 {
+    //;scf.for %ii = %c0 to %c10 step %c1 {
       %11 = func.call @getTime() : () -> f64
       %12 = memref.load %alloc_1[%c0] : memref<?xindex>
       scf.for %arg0 = %c0 to %12 step %c1 {
@@ -101,7 +101,7 @@ module {
       }
       %13 = func.call @getTime() : () -> f64
       func.call @printElapsedTime(%11, %13) : (f64, f64) -> ()
-    }
+    //;}
     
     return
   }
