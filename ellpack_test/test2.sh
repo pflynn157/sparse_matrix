@@ -23,8 +23,8 @@ fi
 mkdir -p csv/test2_mv
 mkdir -p csv/test2_mm
 
-rm csv/test2_mv/*
-rm csv/test2_mm/*
+#rm csv/test2_mv/*
+#rm csv/test2_mm/*
 
 if [ ! -d ./1024_gen ] ; then
     mkdir 1024_gen
@@ -34,8 +34,8 @@ if [ ! -d ./512_gen ] ; then
     mkdir 512_gen
 fi
 
-rm 1024_gen/*
-rm 512_gen/*
+#rm 1024_gen/*
+#rm 512_gen/*
 
 # Input: $1 = file
 #        $2 = test_name
@@ -54,6 +54,27 @@ function run() {
 }
 
 max=10
+
+#########################################################
+##
+## 512x128- DONE
+##
+for i in $(seq $max)
+do
+    cd 512_gen
+    #python3 ../gen.py 512 512 128
+    #mv 512x128.mtx 512x128_$i.mtx
+    cd ..
+    export SPARSE_FILE_NAME0=512_gen/512x128_$i.mtx
+    #run "csr_mv" "test2_mv" "512x128"
+    #run "ell_mv1" "test2_mv" "512x128"
+    #run "ell_mv2" "test2_mv" "512x128"
+    run "csr_mm128" "test2_mm" "512x128"
+    #run "ell1_mm128" "test2_mm" "512x128"
+    #run "ell2_mm128" "test2_mm" "512x128"
+done
+exit 0
+#########################################################
 
 ##
 ## 8- DONE
