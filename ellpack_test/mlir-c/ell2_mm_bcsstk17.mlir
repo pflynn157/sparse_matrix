@@ -83,29 +83,11 @@ module {
     
     %c1024 = arith.constant 10974 : index
     
-    scf.for %ii = %c0 to %c10 step %c1 {
-      %11 = func.call @getTime() : () -> f64
-      %12 = memref.load %alloc_1[%c0] : memref<?xindex>
-      scf.for %arg0 = %c0 to %12 step %c1 {
-        %14 = memref.load %alloc_13[%c0] : memref<?xindex>
-        scf.for %arg1 = %c0 to %14 step %c1 {
-          %15 = memref.load %alloc_1[%c0] : memref<?xindex>
-          %16 = arith.muli %arg1, %15 : index
-          %17 = arith.addi %16, %arg0 : index
-          %18 = memref.load %alloc_11[%17] : memref<?xindex>
-          scf.for %arg2 = %c0 to %c1024 step %c1 {
-            %19 = memref.load %alloc_17[%17] : memref<?xf64>
-            %20 = memref.load %alloc_19[%18, %arg2] : memref<?x10974xf64>
-            %21 = memref.load %alloc_20[%arg0, %arg2] : memref<?x10974xf64>
-            %22 = arith.mulf %19, %20 : f64
-            %23 = arith.addf %21, %22 : f64
-            memref.store %23, %alloc_20[%arg0, %arg2] : memref<?x10974xf64>
-          }
-        }
-      }
-      %13 = func.call @getTime() : () -> f64
-      func.call @printElapsedTime(%11, %13) : (f64, f64) -> ()
-    }
+    %rows = memref.load %alloc_1[%c0] : memref<?xindex>
+    %cols = memref.load %alloc_13[%c0] : memref<?xindex>
+    %cast_19 = memref.cast %alloc_19 : memref<?x10974xf64> to memref<*xf64>
+    %cast_22 = memref.cast %alloc_20 : memref<?x10974xf64> to memref<*xf64>
+    func.call @ell_mm_test2(%rows, %cols, %cast_12, %cast_18, %cast_19, %cast_22, %c1024) : (index, index, memref<*xindex>, memref<*xf64>, memref<*xf64>, memref<*xf64>, index) -> ()
     
     return
   }
@@ -114,4 +96,5 @@ module {
   func.func private @comet_sort_index(memref<*xindex>, index, index)
   func.func private @getTime() -> f64
   func.func private @printElapsedTime(f64, f64)
+  func.func private @ell_mm_test2(index, index, memref<*xindex>, memref<*xf64>, memref<*xf64>, memref<*xf64>, index)
 }
