@@ -73,25 +73,25 @@ function run() {
 # 1024x? matrices
 export SPARSE_FILE_NAME0=data/bcsstk17.mtx
 run "csr_mv" "bcsstk17" "bcsstk17" 0
-run "bcsr_mv" "bcsstk17" "bcsstk17" 1 6 5487 10974
+run "bcsr_mv" "bcsstk17" "bcsstk17" 1 4 40 150
 run "csr_mm_bcsstk17" "bcsstk17" "bcsstk17" 0
-run "bcsr_mm_bcsstk17" "bcsstk17" "bcsstk17" 1 6 5487 10974
+run "bcsr_mm_bcsstk17" "bcsstk17" "bcsstk17" 1 4 40 150
 
 export SPARSE_FILE_NAME0=data/cant.mtx
 run "csr_mv" "cant" "cant" 0
-run "bcsr_mv" "cant" "cant" 1 9 20817 62451
+run "bcsr_mv" "cant" "cant" 1 4 39 78
 run "csr_mm_cant" "cant" "cant" 0
-run "bcsr_mm_cant" "cant" "cant" 1 9 20817 62451
+run "bcsr_mm_cant" "cant" "cant" 1 4 39 78
 
 export SPARSE_FILE_NAME0=data/pdb1HYS.mtx
 run "csr_mv" "pdb1HYS" "pdb1HYS" 0
-run "bcsr_mv" "pdb1HYS" "pdb1HYS" 1 61 12139 36417
+run "bcsr_mv" "pdb1HYS" "pdb1HYS" 1 4 102 204
 run "csr_mm_pdb1HYS" "pdb1HYS" "pdb1HYS" 0
-run "bcsr_mm_pdb1HYS" "pdb1HYS" "pdb1HYS" 1 61 12139 36417
+run "bcsr_mm_pdb1HYS" "pdb1HYS" "pdb1HYS" 1 4 102 204
 
 export SPARSE_FILE_NAME0=data/rma10.mtx
 run "csr_mv" "rma10" "rma10" 0
-run "bcsr_mv" "rma10" "rma10" 1 29 2465 46835
+run "bcsr_mv" "rma10" "rma10" 1 4 27 54
 run "csr_mm_rma10" "rma10" "rma10" 0
-run "bcsr_mm_rma10" "rma10" "rma10" 1 29 2465 46835
+run "bcsr_mm_rma10" "rma10" "rma10" 1 4 27 54
 
