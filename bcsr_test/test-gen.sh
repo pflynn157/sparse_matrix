@@ -50,7 +50,7 @@ function run() {
     
     if [[ $4 == "0" ]]
     then
-        printf "" > csv/$2/$1_$3_"csr".csv
+        #printf "" > csv/$2/$1_$3_"csr".csv
         $COMET_BASE/bin/comet-opt --convert-ta-to-it --convert-to-loops --convert-to-llvm mlir_base/$1.mlir &> /tmp/first.mlir
         $LLVM_BASE/mlir-cpu-runner /tmp/first.mlir -O2 \
                 -e main -entry-point-result=void \
