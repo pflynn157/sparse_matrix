@@ -58,7 +58,7 @@ function run() {
             #        -shared-libs=$COMET_BASE/lib/libcomet_runner_utils.so \
             #          | grep -oP '\d+\.\d+' >> csv/$2/$1_$3_"$b"x"$b".csv
             $LLVM_BASE/mlir-translate --mlir-to-llvmir /tmp/first.mlir &> /tmp/first.ll
-            $LLVM_BASE/clang mlir-c/lib.c -c -o /tmp/lib.o -march=native -O2 -ftree-vectorize -fopenmp
+            $LLVM_BASE/clang mlir-c-omp/lib.c -c -o /tmp/lib.o -march=native -O2 -ftree-vectorize -fopenmp
 
             $LLVM_BASE/clang /tmp/first.ll /tmp/lib.o -o exe -L$COMET_BASE/lib -lcomet_runner_utils -O2
             printf "" > csv/$2/$1_$3_"$b"x"$b".csv
