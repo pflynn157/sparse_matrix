@@ -85,18 +85,18 @@ print("================================")
 ##
 ## CSR matrix multplication
 ##
-print("CSR")
-C4 = csr_multiply(csr_matrix, vector, m, n)
+#print("CSR")
+#C4 = csr_multiply(csr_matrix, vector, m, n)
 
-print(C4)
-print("================================")
+#print(C4)
+#print("================================")
 
 ##
 ## BCSR matrix multplication
 ##
-print("BCSR")
-C5 = bcsr_multiply(bcsr_matrix, vector, m, n)
+#print("BCSR")
+#C5 = bcsr_multiply(bcsr_matrix, vector, m, n)
 
-print(C5)
-print("================================")
+#print(C5)
+#print("================================")
 
