@@ -65,38 +65,11 @@ print(C1)
 print("================================")
 
 ##
-## COO matrix multplication
-##
-print("COO")
-C2 = coo_multiply(coo_matrix, vector, m, n)
-
-print(C2)
-print("================================")
-
-##
-## ELLPACK matrix multplication
-##
-print("ELLPACK")
-C3 = ellpack_multiply(ellpack_matrix, vector, m, n)
-
-print(C3)
-print("================================")
-
-##
-## CSR matrix multplication
-##
-#print("CSR")
-#C4 = csr_multiply(csr_matrix, vector, m, n)
-
-#print(C4)
-#print("================================")
-
-##
 ## BCSR matrix multplication
 ##
-#print("BCSR")
-#C5 = bcsr_multiply(bcsr_matrix, vector, m, n)
+print("BCSR")
+C5 = bcsr_multiply(bcsr_matrix, vector, m, n)
 
-#print(C5)
-#print("================================")
+print(C5)
+print("================================")
 

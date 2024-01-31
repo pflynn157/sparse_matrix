@@ -45,18 +45,40 @@ def ellpack_multiply(ellpack_mtx, vector, m, n):
     Aval = ellpack_mtx[3]
     mtx3 = [0 for _ in range(m)]
     
+    rows = A1_pos
+    cols = A1_tile_pos
+    print("Rows: ", rows, " | Cols: ", cols)
+    
     ##
     ## The idea behind this is when we have a Dense-Dense attribute,
     ## we generate code and incidies like this
     ##
     ## This generalizes for COO;
     ##
-    for i in range(A1_pos):
+    #'''
+    for i in range(rows):
         # A2- D
         # A2_tile- S
-        for n1 in range(A1_tile_pos):
-            n = n1 * A1_pos + i
+        for n1 in range(cols):
+            n = n1 * rows + i
             j = A2_crd[n]
+            print("I: ", i, " | J:", j,  " | n1: ", n1, " | N: ", n)
+            
+            #mtx3[i] += Aval[n] * vector[j]
+    #'''
+    print("--------------------")
+    '''
+    for n1 in range(cols):
+        for i in range(rows):
+            n = n1 * rows + i
+            j = A2_crd[n]
+            mtx3[i] += Aval[n] * vector[j]
+    '''
+    for i in range(rows):
+        for n1 in range(cols):
+            n = n1 * rows + i
+            j = A2_crd[n]
+            print("I: ", i, " | J:", j,  " | n1: ", n1, " | N: ", n, " | N1*rows: ", n1*rows, " | i*cols: ", i*rows+n1)
             
             mtx3[i] += Aval[n] * vector[j]
             
@@ -64,11 +86,11 @@ def ellpack_multiply(ellpack_mtx, vector, m, n):
 
 def bcsr_multiply(bcsr_mtx, vector, m, n):
     # Review the comments
-    A1_pos = bcsr_mtx[0][0]         # A1_pos
-    A1_block_pos = bcsr_mtx[1][0]   # A1_block_pos
-    A2_pos = bcsr_mtx[2]            # A2_pos
-    A2_crd = bcsr_mtx[3]            # A2_crd
-    A2_block_pos = bcsr_mtx[4][0]   # A2_block_pos
+    A1_pos = bcsr_mtx[0][0]         # A1_pos (dense)
+    A1_block_pos = bcsr_mtx[1][0]   # A1_block_pos (rows)
+    A2_pos = bcsr_mtx[2]            # A2_pos ptr
+    A2_crd = bcsr_mtx[3]            # A2_crd ptr
+    A2_block_pos = bcsr_mtx[4][0]   # A2_block_pos (cols)
     Aval = bcsr_mtx[5]           # Values of A in BCSR format
 
     # Create an empty result matrix
