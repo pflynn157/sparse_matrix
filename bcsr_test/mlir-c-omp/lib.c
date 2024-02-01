@@ -69,11 +69,10 @@ void bcsr_mm_test(int64_t dense, int64_t rows, int64_t cols,
         double start = getTime();
         
         int64_t n2, bj, k;
-        #pragma omp parallel
         for (int64_t n1 = 0; n1<dense; n1++) {
             for (int64_t bi = 0; bi<rows; bi++) {
-                #pragma omp parallel for private(n2, bj, k)
                 for (n2 = idxptr[n1]; n2<idxptr[n1+1]; n2++) {
+                    #pragma omp parallel for
                     for (bj = 0; bj<cols; bj++) {
                         for (k = 0; k<k_len; k++) {
                             int64_t i = n1 * rows + bi;
