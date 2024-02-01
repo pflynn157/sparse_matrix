@@ -8,7 +8,7 @@
 #export LLVM_LIB="/home/pflynn5/PNNL/COMET/llvm/build/lib"
 
 # Carina
-export LD_LIBRARY_PATH="/home/pflynn5/COMET/build/lib:/home/pflynn5/COMET/install/lib"
+export LD_LIBRARY_PATH="/home/pflynn5/COMET/build/lib:/home/pflynn5/COMET/install/lib:/home/pflynn5/COMET/llvm/build/lib"
 export COMET_BASE="/home/pflynn5/COMET/build"
 export LLVM_BASE="/home/pflynn5/COMET/llvm/build/bin"
 export LLVM_LIB="/home/pflynn5/COMET/llvm/build/lib"
