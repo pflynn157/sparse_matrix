@@ -29,7 +29,7 @@ void bcsr_mv_test(int64_t dense, int64_t rows, int64_t cols,
         for (n1 = 0; n1<dense; n1++) {
             for (bi = 0; bi<rows; bi++) {
                 for (n2 = idxptr[n1]; n2<idxptr[n1+1]; n2++) {
-                    #pragma omp parallel for private
+                    #pragma omp parallel
                     for (bj = 0; bj<cols; bj++) {
                         i = n1 * rows + bi;
                         j = idx[n2] * cols + bj;
