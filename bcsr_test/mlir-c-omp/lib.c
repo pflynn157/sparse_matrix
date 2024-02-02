@@ -24,16 +24,16 @@ void bcsr_mv_test(int64_t dense, int64_t rows, int64_t cols,
     for (int ttt = 0; ttt<10; ttt++) {
         double start = getTime();
         
-        int64_t n2, bj;
-        #pragma omp parallel
-        for (int64_t n1 = 0; n1<dense; n1++) {
-            for (int64_t bi = 0; bi<rows; bi++) {
-                #pragma omp parallel for private(n2, bj)
+        int64_t n1, bi, n2, bj;
+        int64_t i, j, index;
+        for (n1 = 0; n1<dense; n1++) {
+            for (bi = 0; bi<rows; bi++) {
                 for (n2 = idxptr[n1]; n2<idxptr[n1+1]; n2++) {
+                    #pragma omp parallel for private
                     for (bj = 0; bj<cols; bj++) {
-                        int64_t i = n1 * rows + bi;
-                        int64_t j = idx[n2] * cols + bj;
-                        int64_t index = n2*(rows*cols) + bi * cols + bj;
+                        i = n1 * rows + bi;
+                        j = idx[n2] * cols + bj;
+                        index = n2*(rows*cols) + bi * cols + bj;
                         
                         #pragma omp atomic
                         C[i] += values[index] * B[j];
